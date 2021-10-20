@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://BAM:bam19992512@cluster0.u4bnx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "jwtSecret": "BAMsecretoken"
+}
