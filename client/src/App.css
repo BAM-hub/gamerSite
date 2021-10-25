@@ -1,0 +1,188 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+/* layout */
+body {
+  height: 100vh;
+}
+
+.main {
+  display: flex;
+  height: 100%;
+}
+
+/*left section */
+.left {
+  width: 25%;
+  border-right: 2px solid black;
+  height: 100%;
+}
+
+.info {
+  height: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left .avatar {
+  margin: auto;
+  width: 20vw;
+  height: 20vw;
+  border: 2px solid black;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+}
+
+.info .name {
+  text-align: center;
+}
+
+/* social part */
+.social {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.social li {
+  list-style: none;
+  padding: 1em;
+}
+/* stared game overview */
+.stared-game {
+  height: 35%;
+  background: linear-gradient(120deg, rgb(221, 221, 221), rgb(117, 106, 106));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+}
+
+.game-pic {
+  padding: 0.2em;
+}
+
+.game-pic img {
+  margin: auto;
+  width: 20vw;
+  height: 15vw;
+  border-radius: 2em;
+  overflow: hidden;
+}
+
+.score {
+  position: absolute;
+  top: 1em;
+  left: 0.5em;
+}
+
+.tags {
+  font-size: 10px;
+  padding: 1em;
+}
+
+/* mid */
+.mid {
+  width: 50%;
+  border-right: 2px solid black;
+}
+
+.top-mid {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 15vh;
+}
+
+.search-bar input[type="text"] {
+  width: 80%;
+  border: none;
+  box-shadow: 1px 1px 5px black;
+  padding: 0.2em;
+}
+
+.search-bar button {
+  border: none;
+  background: transparent;
+}
+
+.top-mid span {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list {
+  border-top: 2px solid black;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-around;
+  background: rgb(173, 173, 173);
+  padding: 1em;
+}
+
+/* left section */
+
+.right {
+  height: 100%;
+  width: 25%;
+  text-align: center;
+}
+
+.right .search-bar {
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-room {
+  display: flex;
+  justify-content: space-around;
+  background: rgb(173, 173, 173);
+  padding: 1em;
+}
+
+@media screen and (min-width: 1080px) {
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .main {
+    width: 70%;
+    height: 80vh;
+    border: 2px solid black;
+  }
+  .left .avatar {
+    margin: auto;
+    width: 12vw;
+    height: 12vw;
+    border: 2px solid black;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+  }
+}
