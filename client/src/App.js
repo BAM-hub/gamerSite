@@ -1,53 +1,20 @@
-import React, {
-  useEffect,
-  useRef,
-  useState } from 'react';
-import  io  from "socket.io-client";
 import './App.css';
+import { 
+  BrowserRouter as Router,
+  Route,
+  Switch
+ } from 'react-router-dom';
+import Chat from './components/chat/Chat';
 
-const socket = io('http://localhost:8000');
+//redux
+import { Provider } from 'react-redux';
+import store from './store';
 
-const App = () => {
-  const [roomName, setRoomName] = useState();
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
-  const txt = useRef();
 
-  useEffect(() => {
-    socket.emit('connection');
-    socket.emit('join');
-    socket.on('roomName', (room) => {
-      setRoomName(room); 
-    });
-  }, []);
-
-  function sendMessage() {
-   socket.emit('message', message);
-   setMessages([...messages, message]);
-   console.log(`${message} sent`);
-  };
-
-  socket.on('message', (message) =>{
-    setMessages([...messages, message]);
-  });
-
-  return (
-    <div className="App">
-      {roomName}
-      <div>
-        <input
-         ref={txt}
-         value={message}
-         onChange={e => setMessage(e.target.value)}
-         />
-        <button onClick={e => sendMessage()}>send</button>
-      </div>
-
-      {messages.map(msg =>(
-        <div>{msg}</div>
-      ))}
-    </div>
-  );
-}
+const App = () => (
+  <Provider store={store}>
+    <Chat />
+  </Provider>
+);
 
 export default App;
