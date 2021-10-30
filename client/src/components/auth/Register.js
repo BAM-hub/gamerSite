@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
-const Register = () => {
+const Register = ({ setAlert, register }) => {
   
   const [formData, setFormData] = useState({
     name: '',
@@ -17,21 +21,20 @@ const Register = () => {
   const onSubmit = e => {
     e.preventDefault();
     if(!password || !password2) {
-        return console.log('password is empty');
+        return setAlert('password is empty', 'danger');
     }
     if(password !== password2) {
-      console.log('password dont match');
+      setAlert('password dont match', 'danger');
     }
     else {
-      console.log(formData);
+      console.log({ name, email, password });
+      register({ name, email, password });
     } 
   }
 
   return (
-    <form onSubmit={e => onSubmit(e)}>
+    <form onSubmit={e => onSubmit(e)} id='form'>
       <h4>Register</h4>
-      <span>
-        Name:
         <input 
           type='text'
           placeholder='Name'
@@ -40,10 +43,7 @@ const Register = () => {
           onChange={e => onChange(e)}
           required
           />
-      </span>
 
-      <span>
-        Email:
         <input 
           type='text'
           placeholder='email'
@@ -52,10 +52,7 @@ const Register = () => {
           onChange={e => onChange(e)}
           required
           />
-      </span>
 
-      <span>
-        Password:
         <input 
           type='password' 
           placeholder='Password'
@@ -64,10 +61,6 @@ const Register = () => {
           onChange={e => onChange(e)}
           required
           />
-      </span>
-
-      <span>
-        Confirm Password:
         <input 
           type='password' 
           placeholder='Password'
@@ -76,10 +69,17 @@ const Register = () => {
           onChange={e => onChange(e)}
           required
           />
-      </span>
       <button type='submit'>Login</button>
     </form>
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+}
+
+export default connect(
+  null,
+  { setAlert, register }
+)(Register);
