@@ -7,6 +7,7 @@ const config = require('config');
 const bcrypt = require('bcryptjs');
 
 const User = require('../../models/User');
+const { findOne } = require('../../models/User');
 
 //@route   GET api/auth
 //@desc    Test route
@@ -26,7 +27,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 //@route   post api/auth
-//@desc    Auth user User and get token
+//@desc    Auth(login) user User and get token
 //@access  Public
 
 router.post('/',
@@ -85,3 +86,4 @@ async (req, res) => {
 });
 
 module.exports = router;
+
