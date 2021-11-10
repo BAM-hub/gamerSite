@@ -4,7 +4,8 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGGEDIN
 } from './types';
 
 // register user 
@@ -62,5 +63,34 @@ export const login = ({ email, password }) => async dispatch => {
     dispatch({
       type: LOGIN_FAIL
     });
+  }
+}
+
+export const loggedIn = () => async dispatch => {
+  let token = localStorage.getItem('token');
+  const config = {
+    headers: {
+      'x-auth-token': token
+    }
+  };
+
+  try {
+
+    let res = await axios.get('api/auth', config);
+    dispatch({
+      type: LOGGEDIN,
+      payload: res.data
+    });
+    console.log(res.data);
+    return true;
+
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if(errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+    };
+
+    return false;
   }
 }
