@@ -2,8 +2,10 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_FAIL,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  LOGGEDIN
 } from '../actions/types';
+
 
 const initialState = { 
   token: localStorage.getItem('token'),
@@ -20,6 +22,13 @@ export default function(state = initialState, action) {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token);
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+        loading: false
+      };
+    case LOGGEDIN:
       return {
         ...state,
         ...payload,
