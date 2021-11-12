@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import UserInfo from './UserInfo';
+import ProfileContent from './ProfileContent';
+import ChatOverview from './ChatOverview';
 
 const Profile = () => {
   return (
-    <>
-    <UserInfo />
-    </>
+    <Fragment>
+      <UserInfo />
+      <ProfileContent />
+      <ChatOverview />
+    </Fragment>
   );
 };
 
