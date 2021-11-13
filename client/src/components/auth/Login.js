@@ -63,7 +63,7 @@ const Login = ({
   );
 }
 
-Login.prototypes = {
+Login.propTypes = {
   setAlert: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   loggedIn: PropTypes.func.isRequired,
