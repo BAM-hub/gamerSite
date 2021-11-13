@@ -191,6 +191,36 @@ nav a {
   padding: 1em;
 }
 
+.form-container {
+  height: 92vh;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 70%;
+  height: 50vh;
+  margin: auto;
+  padding: 1em;
+  border: 3px solid #838383;
+  background: #231f1f;
+}
+
+.form input,
+.form button {
+  color: black;
+  padding: 0.2em;
+}
+
+.form button {
+  background: #00a3ff;
+  border: 1px solid #ffffff;
+}
+
 @media screen and (min-width: 1080px) {
   body {
     height: 100vh;
