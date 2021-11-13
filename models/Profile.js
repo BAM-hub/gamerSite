@@ -5,11 +5,6 @@ const ProfileScheme = new mongoose.Schema({
     type: String,
     required: true
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
   staredGame: {
     name: {
       type: String,
@@ -33,6 +28,10 @@ const ProfileScheme = new mongoose.Schema({
     whatsapp: {
       type: String
     }
+  },
+  PreferedConsole: {
+    type: String,
+    default: 'NONE'
   },
   gameList: [{
     name: {
