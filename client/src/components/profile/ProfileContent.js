@@ -1,34 +1,53 @@
-import React from 'react'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const ProfileContent = () => {
+const ProfileContent = ({
+  profile: {
+    PreferedConsole,
+    gameList
+  }
+}) => {
   return (
-    <div class="mid">
-    <div class="top-mid">
-      <form action="" method="post" class="search-bar">
+    <div className="mid">
+    <div className="top-mid">
+      <form action="" method="post" className="search-bar">
        <input type="text" placeholder="search other gamers" />
        <button type="submit">
-         <i class="fas fa-paper-plane"></i>
+         <i className="fas fa-paper-plane"></i>
         </button>
       </form>
       
-   <span><p>Prefered Console: </p>PS4</span>
+   <span><p>Prefered Console: </p>{PreferedConsole}</span>
     </div>
 
-    <div class="list">
+    <div className="list">
+    {gameList.map((game) => (
+      <div className="list-item">
+          <div className="game-name">
+            <p>{game.name}</p>
+          </div>
 
-    <div class="list-item">
-        <div class="game-name">
-          <p>BOTW</p>
-        </div>
-
-        <div class="personal-score">
-          <p>10</p>
-        </div>
+          <div className="personal-score">
+            <p>{game.score}</p>
+          </div>
 
       </div>
+    ))}
+
     </div>
   </div>
   );
 }; 
 
-export default ProfileContent;
+ProfileContent.propTypes = {
+  profile: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+ 
+export default connect(
+  mapStateToProps
+)(ProfileContent);
