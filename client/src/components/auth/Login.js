@@ -45,22 +45,26 @@ const Login = ({
   }
 
   return (
-    <form onSubmit={e => onSubmit(e)} id='form'>
-      <input type="email"
-      value={email}
-      onChange={e => onChange(e)} 
-      name='email'
-      placeholder='Email'
-      />
-      <input type="password"
-      value={password}
-      onChange={e => onChange(e)}
-      name='password'
-      placeholder='Password'
-       />
-      <button type='submit'>Login</button>
-    </form>
+    <div className="form-container">
+      <form onSubmit={e => onSubmit(e)} id='form' className='form'>
+        <input type="email"
+        value={email}
+        onChange={e => onChange(e)} 
+        name='email'
+        placeholder='Email'
+        />
+        <input type="password"
+        value={password}
+        onChange={e => onChange(e)}
+        name='password'
+        placeholder='Password'
+        />
+        <button type='submit'>Login</button>
+      </form>
+    </div>
   );
+
+
 }
 
 Login.propTypes = {

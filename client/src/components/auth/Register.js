@@ -33,44 +33,45 @@ const Register = ({ setAlert, register }) => {
   }
 
   return (
-    <form onSubmit={e => onSubmit(e)} id='form'>
-      <h4>Register</h4>
-        <input 
-          type='text'
-          placeholder='Name'
-          value={name}
-          name='name'
-          onChange={e => onChange(e)}
-          required
-          />
+    <div className="form-container">
+      <form onSubmit={e => onSubmit(e)} id='form'  className='form'>
+          <input 
+            type='text'
+            placeholder='Name'
+            value={name}
+            name='name'
+            onChange={e => onChange(e)}
+            required
+            />
 
-        <input 
-          type='text'
-          placeholder='email'
-          name='email'
-          value={email}
-          onChange={e => onChange(e)}
-          required
-          />
+          <input 
+            type='text'
+            placeholder='email'
+            name='email'
+            value={email}
+            onChange={e => onChange(e)}
+            required
+            />
 
-        <input 
-          type='password' 
-          placeholder='Password'
-          value={password}
-          name='password'
-          onChange={e => onChange(e)}
-          required
-          />
-        <input 
-          type='password' 
-          placeholder='Password'
-          value={password2}
-          name='password2'
-          onChange={e => onChange(e)}
-          required
-          />
-      <button type='submit'>Login</button>
-    </form>
+          <input 
+            type='password' 
+            placeholder='Password'
+            value={password}
+            name='password'
+            onChange={e => onChange(e)}
+            required
+            />
+          <input 
+            type='password' 
+            placeholder='Password'
+            value={password2}
+            name='password2'
+            onChange={e => onChange(e)}
+            required
+            />
+        <button type='submit'>Login</button>
+      </form>
+    </div>
   );
 };
 
