@@ -11,9 +11,9 @@ const User = require('../../models/User');
 //@desc    profile route
 //@access  Private
 
-router.post('/', [
-  check('email', 'email is requied')
-    .isEmail(),
+router.post('/create-profile', [
+  check('email', 'email is requierd').not().isEmpty(),
+  check('name', 'name is requierd').not().isEmpty(),
   check('staredGame', 'you need to add your favorite game')
     .not()
     .isEmpty(),
@@ -70,6 +70,26 @@ async (req, res) =>{
   } catch (err) {
 
     console.error(err.message);
+    res.status(500).send('server error');
+  }
+});
+
+router.get('/', [
+  check('email', 'email is requierd').not().isEmpty()
+],
+async (req, res) => {
+  let { email } = req.body;
+
+  try {
+    let profile = await Profile.findOne({ email });
+
+    if(!profile) {
+      return res.status(500).json(
+        [{ errors: 'profile dose not exist' }]
+      );
+    };
+    res.send(profile);
+  } catch (err) {
     res.status(500).send('server error');
   }
 });
