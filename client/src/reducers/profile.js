@@ -1,6 +1,8 @@
 import {
   PROFILE_FOUND,
-  PROFILE_NOT_FOUND
+  PROFILE_NOT_FOUND,
+  PROFILE_CREATED,
+  PROFILE_CREATE_ERROR
 } from '../actions/types';
 
 
@@ -29,10 +31,12 @@ export default function(state = initialState, action) {
 
   switch(type) {
     case PROFILE_FOUND:
+    case PROFILE_CREATED:
       return {
         ...payload
     };
     case PROFILE_NOT_FOUND:
+    case PROFILE_CREATE_ERROR:
     default:
     return state;
   };
