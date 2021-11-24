@@ -221,6 +221,15 @@ nav a {
   border: 1px solid #ffffff;
 }
 
+/* create profile section */
+
+.create-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10em;
+}
+
 @media screen and (min-width: 1080px) {
   body {
     height: 100vh;
