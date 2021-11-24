@@ -5,6 +5,9 @@ const ProfileScheme = new mongoose.Schema({
     type: String,
     required: true
   },
+  image: {
+    type: String
+  },
   staredGame: {
     name: {
       type: String,
@@ -14,7 +17,7 @@ const ProfileScheme = new mongoose.Schema({
       type: Number
     },
     tags: {
-      type: Array,
+      type: String,
       required: true
     }
   },
