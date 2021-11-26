@@ -23,15 +23,31 @@ const UserInfo = ({
     
     <div className="social">
       <ul>
+        {
+          social.facebook !== '' && 
         <li>
           <i className="fab fa-facebook-square"></i><span>{social.facebook}</span>
         </li>
+        }
+        {
+        social.instagram !== ''&&
         <li>
             <i className="fab fa-instagram"></i><span>{social.instagram}</span>
         </li>
+        }
+        {
+          social.whatsapp !== '' &&
+        
         <li>
             <i className="fab fa-whatsapp"></i><span>{social.whatsapp}</span>
         </li>
+        }
+        {
+          social.facebook === '' && social.instagram === ''&& social.whatsapp === '' &&
+          <li>
+            <i class="fas fa-poll-h"></i><span>Nothing to show here.</span>
+          </li>
+        }
       </ul>
     </div>
 
@@ -46,9 +62,7 @@ const UserInfo = ({
         <p>{staredGame.score}</p>
       </div>
       <div className="tags">
-        {staredGame.tags.map((tag) => (
-          <p>{tag}</p>
-        ))}
+        {staredGame.tags}
       </div>
     </div>
 
