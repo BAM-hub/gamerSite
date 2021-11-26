@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { createProfile, uploadImage } from '../../actions/profile';
 
 
@@ -20,21 +19,14 @@ const CreatePorfile = ({auth:{email, token}, createProfile, uploadImage}) => {
       instagram: '',
       whatsapp: ''
     },
-    PreferedConsole: '',
-    gameList: [{
-      name: '',
-      score: 0
-    }],
+    PreferedConsole: ''
   });
 
   const {
-    staredGame
+    staredGame,
+    social,
+    PreferedConsole
   } = formData;
-
-  const onChange = (e) => setFormData({
-    ...formData,
-    [e.target.name]: e.target.value
-  });
 
   function onSubmit (e) {
     e.preventDefault();
@@ -52,7 +44,9 @@ const CreatePorfile = ({auth:{email, token}, createProfile, uploadImage}) => {
               ...staredGame,
               name: e.target.value
             } })}
+          placeholder='Stared Game'
         />
+        <label htmlFor="score">Rate the game</label>
         <input
           type="number"
           name='score'
@@ -72,6 +66,56 @@ const CreatePorfile = ({auth:{email, token}, createProfile, uploadImage}) => {
               ...staredGame,
               tags: e.target.value
             } })}
+          placeholder='Genres'   
+        />
+        <input 
+          type="text"
+          name='facebook'
+          value={social.facebook}
+          onChange={e => setFormData({
+            ...formData,
+            social:{
+              ...social,
+              facebook: e.target.value
+            }
+          })}
+          placeholder='facebook'
+        />
+        <input 
+          type="text"
+          name='instagram'
+          value={social.instagram}
+          onChange={e => setFormData({
+            ...formData,
+            social:{
+              ...social,
+              instagram: e.target.value
+            }
+          })}
+          placeholder='instagram'
+        />
+        <input 
+          type="text"
+          name='whatsapp'
+          value={social.whatsapp}
+          onChange={e => setFormData({
+            ...formData,
+            social:{
+              ...social,
+              whatsapp: e.target.value
+            }
+          })}
+          placeholder='whatsapp'
+        />
+        <input 
+          type="text" 
+          name='preferdconsole'
+          value={PreferedConsole}
+          onChange={e => setFormData({
+            ...formData,
+            PreferedConsole: e.target.value
+          })}
+          placeholder='Prefered Console'
         />
         <input type="submit" />
       </form>
