@@ -14,9 +14,6 @@ const Login = ({
   loggedIn
  }) => {
 
-  useEffect(()=>{
-    loggedIn()
-  },[loggedIn]);
 
   const [formData, setFormData] = useState({
     email: '',
