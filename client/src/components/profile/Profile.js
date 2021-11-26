@@ -28,7 +28,7 @@ Profile.propTypes = {
 
 
 const mapStateToProps = state => ({
-  email: state.auth.email
+  email: state.auth.email,
 });
 
 export default connect(
