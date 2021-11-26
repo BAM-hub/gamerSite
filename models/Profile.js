@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const ProfileScheme = new mongoose.Schema({
-  name: {
+  email: {
     type: String,
     required: true
   },
   image: {
-    type: String
+    type: String,
+    default: ''
   },
   staredGame: {
     name: {
@@ -39,7 +40,6 @@ const ProfileScheme = new mongoose.Schema({
   gameList: [{
     name: {
       type: String,
-      required: true
     },
     score: {
       type: Number,
