@@ -59,6 +59,7 @@ const Register = ({ setAlert, register }) => {
             value={password}
             name='password'
             onChange={e => onChange(e)}
+            autoComplete='on'
             required
             />
           <input 
@@ -67,6 +68,7 @@ const Register = ({ setAlert, register }) => {
             value={password2}
             name='password2'
             onChange={e => onChange(e)}
+            autoComplete='on'
             required
             />
         <button type='submit'>Login</button>
