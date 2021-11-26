@@ -9,16 +9,28 @@ const Navbar = ({ auth: {isAuthenticated} }) => {
       <h3>gamerSite</h3>
       <div className="links">
         <ul>
-          <li>
-              <Link to='/register'>Register</Link>
-          </li>
-          <li>
-              <Link to='/'>Login</Link>              
-          </li>
-          { isAuthenticated && 
-          <li>
-              <Link to='/chat'>Chat</Link>
-          </li>}
+          { !isAuthenticated ?
+          <>
+            <li>
+                <Link to='/register'>Register</Link>
+            </li>
+            <li>
+                <Link to='/'>Login</Link>              
+            </li>
+          </>
+          :
+          <>
+            <li>
+                <Link to='/chat'>Chat</Link>
+            </li>
+            <li>
+              <Link to='/create-profile'>create Profile</Link>
+            </li>
+            <li>
+              <Link to='/profile'>Profile</Link>
+            </li>
+          </>
+          }
         </ul>
       </div>
     </nav>
