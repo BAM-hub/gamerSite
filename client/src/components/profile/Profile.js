@@ -7,7 +7,7 @@ import ChatOverview from './ChatOverview';
 
 import { getProfile } from '../../actions/profile';
 
-const Profile = ({ getProfile, email }) => {
+const Profile = ({ getProfile, auth:{email} }) => {
   useEffect(()=>{
     getProfile(email);
   },[getProfile, email]);
@@ -28,7 +28,7 @@ Profile.propTypes = {
 
 
 const mapStateToProps = state => ({
-  email: state.auth.email,
+  auth: state.auth,
 });
 
 export default connect(

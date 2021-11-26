@@ -45,7 +45,7 @@ const UserInfo = ({
         {
           social.facebook === '' && social.instagram === ''&& social.whatsapp === '' &&
           <li>
-            <i class="fas fa-poll-h"></i><span>Nothing to show here.</span>
+            <i className="fas fa-poll-h"></i><span>Nothing to show here.</span>
           </li>
         }
       </ul>

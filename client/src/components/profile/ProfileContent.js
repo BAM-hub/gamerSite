@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
 const ProfileContent = ({
   profile: {
@@ -23,7 +24,7 @@ const ProfileContent = ({
 
     <div className="list">
     {gameList.map((game) => (
-      <div className="list-item">
+      <div key={uuidv4()} className="list-item">
           <div className="game-name">
             <p>{game.name}</p>
           </div>
