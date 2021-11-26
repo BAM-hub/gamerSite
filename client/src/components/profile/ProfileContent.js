@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { Redirect } from 'react-router-dom';
 
 const ProfileContent = ({
   profile: {
@@ -9,6 +10,10 @@ const ProfileContent = ({
     gameList
   }
 }) => {
+  const [edit, setEdit] = useState(false);
+  if(edit) {
+    return <Redirect to='/edit-list' />;
+  };
   return (
     <div className="mid">
     <div className="top-mid">
@@ -23,7 +28,11 @@ const ProfileContent = ({
     </div>
 
     <div className="list">
-    {gameList.map((game) => (
+    { gameList.length === 0 ? (<div className='list-item'>
+      <i className="fas fa-th-list"></i><span>List is empty</span>
+    </div>
+    ) :
+    gameList.map((game) => (
       <div key={uuidv4()} className="list-item">
           <div className="game-name">
             <p>{game.name}</p>
@@ -36,6 +45,9 @@ const ProfileContent = ({
       </div>
     ))}
 
+    </div>
+    <div className="edit-list" onClick={()=> setEdit(!edit)}>
+      <i className="far fa-edit"></i>
     </div>
   </div>
   );
