@@ -7,6 +7,13 @@
   white-space: nowrap;
 }
 
+input[type="submit"],
+input[type="button"],
+input[type="text"],
+input[type="number"] {
+  color: #231f1f;
+}
+
 /* layout */
 body {
   height: 100vh;
@@ -102,7 +109,7 @@ nav a {
 }
 
 .game-pic {
-  width: 4em;
+  width: 6em;
   height: 4em;
 }
 
@@ -128,6 +135,7 @@ nav a {
   height: 92vh;
   width: 50%;
   border-right: 2px solid black;
+  position: relative;
 }
 
 .top-mid {
@@ -168,6 +176,77 @@ nav a {
   justify-content: space-around;
   background: #57de95;
   padding: 1em;
+}
+
+.edit-game-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-game {
+  width: 4em;
+  border: 0;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  padding: 0.3em;
+}
+
+.game-edit-inputs {
+  width: 100vw;
+  background: #838383;
+  padding: 0.2em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.list-item:hover {
+  background: #00a3ff;
+  cursor: pointer;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+}
+
+.edit-game-list .list-item {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  padding: 0.4em;
+}
+
+.edit-list {
+  position: absolute;
+  background: #57de95;
+  width: 2.5em;
+  height: 2.5em;
+  bottom: 2em;
+  right: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.edit-list:hover {
+  cursor: pointer;
+  background: #00a3ff;
+}
+
+.delete * {
+  color: #231f1f;
+}
+
+.delete *:hover {
+  color: rgb(243, 66, 66);
+}
+
+.submit-list {
+  position: absolute;
+  bottom: 1em;
+  border: 0;
+  padding: 0.3em;
+  width: 4em;
 }
 
 /* right section */
