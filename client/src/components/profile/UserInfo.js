@@ -2,19 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+
 const UserInfo = ({
   profile:{
     name,
     social,
-    staredGame
-  }
+    staredGame,
+    image
+  },
 }) => {
   return (
     <div className="left">
 
     <div className="info">
       <div className="avatar">
-        <img src='https://cdn.vox-cdn.com/thumbor/vbxRVJGeYs4rAJp_dlN2Swx3eKg=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/19921093/mgidarccontentnick.comc008fa9d_d.png' alt="avatar"/>
+        <img src={`http://localhost:5000/api/profile/avatar/${image}`} alt="avatar"/>
       </div>
       <div className="name">
         <p>{name}</p>
@@ -71,7 +73,7 @@ const UserInfo = ({
 };
 
 UserInfo.propTypes = {
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
