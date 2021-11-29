@@ -22,7 +22,8 @@ const initialState = {
   'gameList': [{
     'name': '',
     'score': 0
-  }]
+  }],
+  "image": ""
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
