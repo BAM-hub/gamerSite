@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import logo from '../layout/avatarph.jpg';
 
 
 const UserInfo = ({
@@ -16,13 +17,28 @@ const UserInfo = ({
 
     <div className="info">
       <div className="avatar">
+      {
+        image === '' ? 
+        <img src={logo} alt='avatar' /> 
+        :
         <img src={`http://localhost:5000/api/profile/avatar/${image}`} alt="avatar"/>
+      }
+
       </div>
       <div className="name">
         <p>{name}</p>
       </div>
     </div>
     
+    {social === undefined ?
+    <div className="social">
+      <ul>
+        <li>
+          <i className="fas fa-poll-h"></i><span>Nothing to show here.</span>
+        </li>
+      </ul> 
+    </div>
+    :
     <div className="social">
       <ul>
         {
@@ -52,6 +68,7 @@ const UserInfo = ({
         }
       </ul>
     </div>
+    }
 
     <div className="stared-game">
       <div className="game-pic">
