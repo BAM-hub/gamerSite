@@ -65,11 +65,44 @@ router.post('/upload/:email/:type', upload.single('file'), async (req, res) =>{
         image: filename
       }
     );
-    res.send('replaced');
+    res.send(filename);
   } catch (err) {
-    
+
+    res.status(500).send('internal server error');
   }
 });
+
+
+router.delete('/delete-avatar/:email/:filename', async(req, res) => {
+  const {
+    email,
+    filename
+  } = req.params;
+
+  
+  try {
+    const image = await gfs.files.findOne({ filename });
+
+   
+
+    if( image !== null ) {
+      const { _id } = image;
+      gfs.db.collection('images.chunks').deleteMany({ files_id: _id });
+
+      gfs.files.deleteOne({ filename });  
+      
+      return res.send('updated');
+    }
+
+
+
+    res.status(404).send('file not found');
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 
 router.get('/avatar/:filename', async (req, res) => {
   
