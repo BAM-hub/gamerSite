@@ -3,7 +3,9 @@ import {
   PROFILE_FOUND,
   PROFILE_NOT_FOUND,
   PROFILE_CREATED,
-  PROFILE_CREATE_ERROR
+  PROFILE_CREATE_ERROR,
+  UPLOAD_IMAGE,
+  UPLOAD_IMAGE_FAILED
 } from './types';
 import FormData from 'form-data'
 
@@ -29,7 +31,7 @@ export const getProfile = (email) => async dispatch => {
 
 };
 
-export const uploadImage = (file) => async dispatch => {
+export const uploadImage = (file, email) => async dispatch => {
   try {
     let config = {
       headers: {
@@ -39,12 +41,19 @@ export const uploadImage = (file) => async dispatch => {
 
     let body = new FormData();
     body.append('file', file, file.name);
-    let res = await axios.post('/api/profile/upload', body, config);
-
+    let res = await axios.post(`/api/profile/upload/${email}/avatar`, body, config);
+    
+    dispatch({
+      type: UPLOAD_IMAGE,
+      payload: res.data
+    });
     return res.data;
 
   } catch (err) {
     console.log(err);
+    dispatch({
+      type: UPLOAD_IMAGE_FAILED
+    });
   }
 };
 
