@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import logo from '../layout/avatarph.jpg';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const UserInfo = ({
@@ -12,11 +13,18 @@ const UserInfo = ({
     image
   },
 }) => {
+
+  const [uploadImage, setuploadImage] = useState(false);
+  if(uploadImage) {
+    return <Redirect to='/upload-image' />
+  }
+
   return (
     <div className="left">
 
     <div className="info">
-      <div className="avatar">
+      <div className="avatar" onClick={
+        ()=> setuploadImage(true)}>
       {
         image === '' ? 
         <img src={logo} alt='avatar' /> 
