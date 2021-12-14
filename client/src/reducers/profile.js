@@ -4,7 +4,9 @@ import {
   PROFILE_CREATED,
   PROFILE_CREATE_ERROR,
   UPLOAD_IMAGE,
-  UPLOAD_IMAGE_FAILED
+  UPLOAD_IMAGE_FAILED,
+  IMAGE_DELETED,
+  IMAGE_DELETE_FAIL
 } from '../actions/types';
 
 
@@ -43,9 +45,15 @@ export default function(state = initialState, action) {
         ...state,
         image: payload
       };
+    case IMAGE_DELETED:
+      return {
+        ...state,
+        image: ''
+      };  
     case UPLOAD_IMAGE_FAILED:
     case PROFILE_NOT_FOUND:
     case PROFILE_CREATE_ERROR:
+    case IMAGE_DELETE_FAIL:
     default:
     return state;
   };
