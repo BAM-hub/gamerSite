@@ -19,7 +19,7 @@ const UploadImage = ({
     e.preventDefault();
     
     //upload image
-    uploadImage(avatar, email);
+    uploadImage(avatar, email, image);
     setRedirect(true);
   };
 
