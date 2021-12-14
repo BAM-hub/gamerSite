@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 const EditList = ({ profile:{ gameList } }) => {
   const [showForms, setShowForms] = useState(false);
   const [thisGameList, setThisGameList] = useState(gameList);
   const [name, setName] = useState('');
   const [score, setScore] = useState(0);
+  const gamePic = useRef(null);
+  const [gamesPics, setGamesPics] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
   const addItem = () => {
     if(thisGameList.length !== 0) {
@@ -31,13 +35,25 @@ const EditList = ({ profile:{ gameList } }) => {
     setShowForms(!showForms);  
   };
 
-  const del = (e, delName) => {
+  const del = (delName, i) => {
     let newState = thisGameList
       .filter(game => game.name !== delName);
+    let newPics = gamesPics;
+    newPics.splice(i, 1);
+    setGamesPics(newPics);
     setThisGameList(
       newState
     );
   };
+
+  const submit = () => {
+    // wait for backend implementation
+    setRedirect(true);
+  }; 
+
+  if(redirect) {
+    return <Redirect to='/profile' />
+  }
 
   return (
     <div className='edit-game-list'>
@@ -55,6 +71,11 @@ const EditList = ({ profile:{ gameList } }) => {
               name="file" 
               id="file"
               accept='image/*' 
+              ref={gamePic}
+              onChange={ e => setGamesPics( prevState => [
+                ...prevState,
+                e.target.files[0]
+              ])}
             />
           <input 
             type="text" 
@@ -73,20 +94,20 @@ const EditList = ({ profile:{ gameList } }) => {
       }
       {
         thisGameList.length !== 0 &&
-        thisGameList.map((game) => (
+        thisGameList.map((game, i) => (
           <div className="list-item" key={game.name}>
 
             <div className="game-pic">
-              <img src="https://www.zelda.com/breath-of-the-wild/assets/icons/BOTW-Share_icon.jpg" alt="game" />
+              <img src={URL.createObjectURL(gamesPics[i])} alt="game" />
             </div>
     
             <div className="game-name">
               <p>{game.name}</p>
             </div>
-            <div className="pewsonal-score">
+            <div className="personal-score">
               <p>{game.score}</p>
             </div>
-            <div className="delete" onClick={(e) => del(e, game.name) }>
+            <div className="delete" onClick={() => del(game.name, i) }>
               <i className="far fa-trash-alt"></i>
             </div>
           </div>
@@ -96,6 +117,7 @@ const EditList = ({ profile:{ gameList } }) => {
         type="button" 
         value='submit'
         className='submit-list'
+        onClick={() => submit()}
       />
     </div>
   )
