@@ -5,7 +5,9 @@ import {
   PROFILE_CREATED,
   PROFILE_CREATE_ERROR,
   UPLOAD_IMAGE,
-  UPLOAD_IMAGE_FAILED
+  UPLOAD_IMAGE_FAILED,
+  IMAGE_DELETED,
+  IMAGE_DELETE_FAIL
 } from './types';
 import FormData from 'form-data'
 
@@ -31,13 +33,28 @@ export const getProfile = (email) => async dispatch => {
 
 };
 
-export const uploadImage = (file, email) => async dispatch => {
+export const uploadImage = (file, email, image) => async dispatch => {
   try {
     let config = {
       headers: {
         'content-type': 'multipart/encrypted'
       }
     };
+
+
+    if(image !== '') {
+      try {
+        axios.delete(`api/profile/delete-avatar/${email}/${image}`);
+        dispatch({
+          type: IMAGE_DELETED
+        });
+      } catch (err) {
+        console.log(err);
+        dispatch({
+          type: IMAGE_DELETE_FAIL
+        });
+      }
+    }
 
     let body = new FormData();
     body.append('file', file, file.name);
