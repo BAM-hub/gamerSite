@@ -4,23 +4,14 @@ import PropTypes from 'prop-types';
 import { createProfile, uploadImage } from '../../actions/profile';
 
 
-const CreatePorfile = ({auth:{email, token}, createProfile, uploadImage}) => {
+const CreatePorfile = (
+  {auth:{email, token},
+  createProfile,
+  profile,
+  uploadImage
+}) => {
   
-  const [formData, setFormData] = useState({
-    email: email,
-    image: '',
-    staredGame: {
-      name: '',
-      score: 0,
-      tags: ''
-    },
-    social: {
-      facebook: '',
-      instagram: '',
-      whatsapp: ''
-    },
-    PreferedConsole: ''
-  });
+  const [formData, setFormData] = useState(profile);
 
   const {
     staredGame,
@@ -126,11 +117,13 @@ const CreatePorfile = ({auth:{email, token}, createProfile, uploadImage}) => {
 CreatePorfile.propTypes ={
   createProfile: PropTypes.func.isRequired,
   uploadImage: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(
