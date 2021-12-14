@@ -51,19 +51,18 @@ router.post('/upload/:email/:type', upload.single('file'), async (req, res) =>{
      gameList,
    } = profile;
 
-
-    await Profile.replaceOne(
-      {email: email},
-      { 
-        email,
-        staredGame,
-        social,
-        id,
-        name,
-        PreferedConsole,
-        gameList,
-        image: filename
-      }
+  await Profile.replaceOne(
+    {email: email},
+    { 
+      email,
+      staredGame,
+      social,
+      id,
+      name,
+      PreferedConsole,
+      gameList,
+      image: filename
+    }
     );
     res.send(filename);
   } catch (err) {
@@ -166,9 +165,16 @@ async (req, res) =>{
     }
 
     if(profile) {
-      return res.status(500).json(
-        [{ errors: 'profile dose exist' }]
-      );
+      await Profile.findOneAndReplace(
+        {email: email},
+        {
+          name: user.name,
+          email,
+          staredGame,
+          social,
+          PreferedConsole
+      });
+      return res.send(profile);
     }
 
     profile = new Profile({
@@ -181,7 +187,7 @@ async (req, res) =>{
 
     await profile.save();
     
-    res.send('profile created');
+    res.send(profile);
 
   } catch (err) {
 
