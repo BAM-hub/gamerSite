@@ -10,6 +10,7 @@ const {upload} = require('../../middleware/upload');
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Games = require('../../models/Games');
 
 // grid fs stream init
 const db = config.get('mongoURI');
@@ -28,43 +29,53 @@ gfs = dbConnection.once('open', () => {
 //@access  Private
 
 router.post('/upload/:email/:type', upload.single('file'), async (req, res) =>{ 
+  let {
+    email,
+    type
+  } = req.params;
+
+  let {
+    filename
+  } = req.file;
+
   try {
+    if(type === 'avatar'){
+      let profile = await Profile.findOne({ email });
+
+
     let {
-      email,
-      type
-    } = req.params;
-
-    let {
-      filename
-    } = req.file;
-
-    let profile = await Profile.findOne({ email });
-
-
-   let {
-     staredGame,
-     social,
-     id,
-     name,
-     image,
-     PreferedConsole,
-     gameList,
-   } = profile;
-
-  await Profile.replaceOne(
-    {email: email},
-    { 
-      email,
       staredGame,
       social,
       id,
       name,
+      image,
       PreferedConsole,
       gameList,
-      image: filename
+    } = profile;
+
+    await Profile.replaceOne(
+      {email: email},
+      { 
+        email,
+        staredGame,
+        social,
+        id,
+        name,
+        PreferedConsole,
+        gameList,
+        image: filename
+      }
+      );
+      return res.send(filename);
     }
-    );
-    res.send(filename);
+
+    let gamePrams = type.split(':');
+    let gameName = gamePrams[1];
+
+    await Games.findOneAndUpdate({ name: gameName }, { image: filename });
+
+    return res.send(filename);
+
   } catch (err) {
 
     res.status(500).send('internal server error');
@@ -163,14 +174,15 @@ async (req, res) =>{
         [{ errors: 'user dose not exist' }]
       );
     }
-
     if(profile) {
+      let { image } = profile;
       await Profile.findOneAndReplace(
         {email: email},
         {
           name: user.name,
           email,
           staredGame,
+          image,
           social,
           PreferedConsole
       });
