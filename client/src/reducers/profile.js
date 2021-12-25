@@ -6,28 +6,32 @@ import {
   UPLOAD_IMAGE,
   UPLOAD_IMAGE_FAILED,
   IMAGE_DELETED,
-  IMAGE_DELETE_FAIL
+  IMAGE_DELETE_FAIL,
+  GAME_LIST_UPDATED
 } from '../actions/types';
 
 
 const initialState = { 
-  "staredGame": {
-    "name": '',
-    "score": 10,
-    "tags": []
+  staredGame: {
+    name: '',
+    score: 10,
+    tags: []
   },
-  "social": {
-    "facebook": "",
-    "instagram": "",
-    "whatsapp": ""
+  social: {
+    facebook: '',
+    instagram: '',
+    whatsapp: ''
   },
-  "name": "",
-  'PreferedConsole': '',
-  'gameList': [{
-    'name': '',
-    'score': 0
+  name: '',
+  PreferedConsole: '',
+  gameList: [{
+    name: '',
+    score: 0,
+    id: null,
+    image: '',
+    tags: ''
   }],
-  "image": ""
+  image: ''
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -49,7 +53,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         image: ''
-      };  
+      };
+    case GAME_LIST_UPDATED:
+      return {
+        ...state,
+        gameList: payload
+      } 
     case UPLOAD_IMAGE_FAILED:
     case PROFILE_NOT_FOUND:
     case PROFILE_CREATE_ERROR:
