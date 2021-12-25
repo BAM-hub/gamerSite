@@ -7,7 +7,8 @@ import {
   UPLOAD_IMAGE,
   UPLOAD_IMAGE_FAILED,
   IMAGE_DELETED,
-  IMAGE_DELETE_FAIL
+  IMAGE_DELETE_FAIL,
+  GAME_LIST_UPDATED
 } from './types';
 import FormData from 'form-data'
 
@@ -74,13 +75,18 @@ export const uploadImage = (file, email, image) => async dispatch => {
   }
 };
 
-export const createProfile = (formData, token) => async dispatch => {
+export const createProfile = (formData, token, email) => async dispatch => {
   try {
     let config = {
       headers: {
         'Content-Type': 'application/json',
         'x-auth-token': token
       }
+    };
+
+    formData = {
+      ...formData,
+      email: email
     };
 
     let res = await axios.post('/api/profile/create-profile', formData, config);
@@ -97,3 +103,53 @@ export const createProfile = (formData, token) => async dispatch => {
     });
   }
 };
+
+export const editGameList = (gameList, images, email, token) => async dispatch => {
+  try {
+    let config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': token
+      }
+    };
+
+    let body = JSON.stringify({ gameList, email });
+
+    let res = await axios.post('api/games/add-game-to-profile', body, config);
+
+    let existingGames = res.data.existingGames[0];
+    
+    config = {
+      headers: {
+        'content-type': 'multipart/encrypted'
+      }
+    };
+
+    existingGames.map(async (game ,i) => {
+      if(!game) return;
+
+      body = new FormData();
+      body.append('file', images[i], images[i].name);
+
+      await axios.post(`api/profile/upload/${email}/Games:${gameList[i].name}`, body, config);
+
+      if(i === existingGames.length -1) {
+        config = {
+          headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': token
+          }
+        };
+      
+          res = await axios.get(`api/games/game-list/${email}`, config);
+          dispatch({
+            type: GAME_LIST_UPDATED,
+            payload: res.data
+          });
+      }
+    });
+
+  } catch (err) {
+    console.log(err);
+  }
+} 
