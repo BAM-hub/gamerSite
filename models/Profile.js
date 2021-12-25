@@ -44,6 +44,13 @@ const ProfileScheme = new mongoose.Schema({
     score: {
       type: Number,
       default: 0
+    },
+    image: {
+      type: String
+    },
+    tags: {
+      type: String,
+      default: ''
     }
   }]
 });
