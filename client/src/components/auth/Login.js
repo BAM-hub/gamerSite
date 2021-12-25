@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { setAlert } from '../../actions/alert';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, loggedIn } from '../../actions/auth';
+import { getProfile } from '../../actions/profile';
 
 
 
 const Login = ({ 
   auth:{ isAuthenticated },
-  setAlert,
   login,
-  loggedIn
+  getProfile
  }) => {
 
 
@@ -35,6 +34,8 @@ const Login = ({
     };
 
     await login({ email, password });
+    await getProfile(email);
+
   };
 
   if(isAuthenticated) {
@@ -55,6 +56,7 @@ const Login = ({
         onChange={e => onChange(e)}
         name='password'
         placeholder='Password'
+        autoComplete='on'
         />
         <button type='submit'>Login</button>
       </form>
@@ -65,10 +67,10 @@ const Login = ({
 }
 
 Login.propTypes = {
-  setAlert: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   loggedIn: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  getProfile: PropTypes.func.isRequired,
 };
 
 const mapStatetoProps = state => ({
@@ -77,5 +79,5 @@ const mapStatetoProps = state => ({
 
 export default connect(
   mapStatetoProps,
-  { setAlert, login, loggedIn }
+  { login, loggedIn, getProfile }
 )(Login);
