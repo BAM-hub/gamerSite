@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createProfile, uploadImage } from '../../actions/profile';
+import { createProfile } from '../../actions/profile';
 
 
 const CreatePorfile = (
   {auth:{email, token},
   createProfile,
-  profile,
-  uploadImage
+  profile
 }) => {
   
   const [formData, setFormData] = useState(profile);
@@ -21,7 +20,7 @@ const CreatePorfile = (
 
   function onSubmit (e) {
     e.preventDefault();
-    createProfile(formData, token);
+    createProfile(formData, token, email);
   };
   return (
     <div>
@@ -116,7 +115,6 @@ const CreatePorfile = (
 
 CreatePorfile.propTypes ={
   createProfile: PropTypes.func.isRequired,
-  uploadImage: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 };
@@ -128,5 +126,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createProfile, uploadImage }
+  { createProfile }
 )(CreatePorfile);
