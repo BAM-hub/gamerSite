@@ -55,7 +55,6 @@ router.post('/add-game-to-profile',[
    check('gameList', 'the list should not be empty')
      .isArray().notEmpty()
  ],
- auth,
  async (req, res) => {
   
   const errors = validationResult(req);
@@ -69,30 +68,74 @@ router.post('/add-game-to-profile',[
   } = req.body;
 
   try {
-    let profile = await Profile.findOne({ email });
+    let existingGames = [];
+    existingGames.push(
+      await Promise.all(
+        gameList.map(async game => {
+          let { name, tags } = game;
+          let savedGame = await Games.findOne({ name });
 
-    gameList.map(async (game) => {
-      let { name, score, tags } = game;
-      let savedGame = await Games.findOne({ name });
+          if(savedGame) return 0;
 
-      if(!savedGame) {
-        let newGame = new Games({ name, score, tags });
-        await newGame.save();
-      }
-    });
+          game = new Games ({
+            name,
+            tags,
+            image: ''
+          });
+          await game.save();
 
+          return 1;
+        })
+      )
+    );
+    
     await Profile.findOneAndUpdate(
-      {email},
-      {
-        gameList
-      }
+      { email },
+      { gameList }
     );
 
-    res.send(gameList);
+    res.send({ existingGames, gameList });
 
   } catch (err) {
    
     res.status(500).send('Internal Server error');
+  }
+ });
+
+//PRIVATE
+router.get('/game-list/:email', async (req, res) => {
+  //to get the final games data morrow
+  let { email } = req.params;
+  try {
+
+    let profile = await Profile.findOne({ email });
+    let { gameList} = profile;
+
+    let newList = [];
+    newList.push(
+        await Promise.all(
+          gameList.map(async game => {
+          let { name, score } = game;
+          let newGame = await Games.findOne({ name });
+          let { _id, image, tags } = newGame;
+          return {
+            name,
+            score,
+            _id,
+            image,
+            tags
+          };
+        })
+      )
+    );
+    await Profile.findOneAndUpdate(
+      { email },
+      { gameList: newList[0] }
+    );
+
+    res.send(newList[0]);
+  } catch (err) {
+    console.log(err);
   }
  });
 
