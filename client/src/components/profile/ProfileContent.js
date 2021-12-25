@@ -33,7 +33,12 @@ const ProfileContent = ({
     </div>
     ) :
     gameList.map((game) => (
-      <div key={uuidv4()} className="list-item">
+      <div key={game.name} className="list-item">
+
+        <div className="game-pic">
+          <img src={`http://localhost:5000/api/profile/avatar/${game.image}`} alt="" />
+        </div>
+
           <div className="game-name">
             <p>{game.name}</p>
           </div>
