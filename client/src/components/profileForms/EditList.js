@@ -2,22 +2,41 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { editGameList } from '../../actions/profile';
 
-const EditList = ({ profile:{ gameList } }) => {
+const EditList = ({ 
+  profile:{ gameList },
+  auth: { email, token },
+  editGameList 
+}) => {
   const [showForms, setShowForms] = useState(false);
   const [thisGameList, setThisGameList] = useState(gameList);
-  const [name, setName] = useState('');
-  const [score, setScore] = useState(0);
+  const [game, setGame] = useState({
+    image: null,
+    name: '',
+    score: 0,
+    tags: ''
+  });
+
+  const {
+    name,
+    score,
+    tags
+  } = game;
+
   const gamePic = useRef(null);
-  const [gamesPics, setGamesPics] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
   const addItem = () => {
     if(thisGameList.length !== 0) {
       let check = thisGameList.filter(game => game.name === name);
       if(check.length !== 0){
-        setName('');
-        setScore(0);
+        setGame({
+          name: '',
+          score: '',
+          tags: '',
+          image: null
+        });
         return;
       } 
     }
@@ -25,29 +44,29 @@ const EditList = ({ profile:{ gameList } }) => {
     if(name.trim() === '' || thisGameList.length === 5)return;
 
     setThisGameList(
-      prevState =>([...prevState, {
-          name: name,
-          score: score
-      }])
+      prevState =>([...prevState, game])
     );
-    setName('');
-    setScore(0);
+    setGame({
+      name: '',
+      score: '',
+      tags: '',
+      image: null
+    });
     setShowForms(!showForms);  
+ 
   };
 
   const del = (delName, i) => {
     let newState = thisGameList
       .filter(game => game.name !== delName);
-    let newPics = gamesPics;
-    newPics.splice(i, 1);
-    setGamesPics(newPics);
     setThisGameList(
       newState
     );
   };
 
   const submit = () => {
-    // wait for backend implementation
+
+    editGameList(thisGameList, email ,token);
     setRedirect(true);
   }; 
 
@@ -72,22 +91,25 @@ const EditList = ({ profile:{ gameList } }) => {
               id="file"
               accept='image/*' 
               ref={gamePic}
-              onChange={ e => setGamesPics( prevState => [
-                ...prevState,
-                e.target.files[0]
-              ])}
+              onChange={ e => setGame({...game, image: e.target.files[0]})}
             />
           <input 
             type="text" 
             placeholder='Name' 
             value={name} 
-            onChange={e => setName(e.target.value)}
+            onChange={e => setGame({...game, name: e.target.value})}
           />
           <input 
             type="number" 
             placeholder='Rating'
             value={score}
-            onChange={e => setScore(e.target.value)}
+            onChange={e => setGame({...game, score: e.target.value})}
+          />
+          <input 
+            type="text"
+            placeholder='Tags.. e.g: action, rpg'
+            value={tags}
+            onChange={e => setGame({...game, tags: e.target.value})}
           />
           <input type="button" value='Add' onClick={() => addItem()} />
         </div>
@@ -98,7 +120,13 @@ const EditList = ({ profile:{ gameList } }) => {
           <div className="list-item" key={game.name}>
 
             <div className="game-pic">
-              <img src={URL.createObjectURL(gamesPics[i])} alt="game" />
+              {
+              typeof(game.image) !== 'string' ?
+                <img src={URL.createObjectURL(game.image)} alt="game" /> 
+                :
+                <img src={`http://localhost:5000/api/profile/avatar/${game.image}`} alt='gamepic'/>
+              }
+
             </div>
     
             <div className="game-name">
@@ -107,6 +135,7 @@ const EditList = ({ profile:{ gameList } }) => {
             <div className="personal-score">
               <p>{game.score}</p>
             </div>
+            <div className="game-name">{game.tags}</div>
             <div className="delete" onClick={() => del(game.name, i) }>
               <i className="far fa-trash-alt"></i>
             </div>
@@ -125,12 +154,16 @@ const EditList = ({ profile:{ gameList } }) => {
 
 EditList.propTypes = {
   profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  editGameList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  auth: state.auth
 });
 
 export default connect(
   mapStateToProps,
+  { editGameList }
 )(EditList);
