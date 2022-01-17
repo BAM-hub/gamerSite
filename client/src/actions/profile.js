@@ -153,7 +153,7 @@ export const editGameList = (gameList, email, token) => async dispatch => {
       body = new FormData();
       body.append('file', gameList[i].image , gameList[i].image.name);
 
-      await axios.post(`api/profile/upload/${email}/Games:${gameList[i].image.name}`, body, config);
+      await axios.post(`api/profile/upload/${email}/Games:${gameList[i].name}`, body, config);
       
       if(i === existingGames.length -1) {
         let config = {
