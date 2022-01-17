@@ -52,6 +52,16 @@ const ProfileScheme = new mongoose.Schema({
       type: String,
       default: ''
     }
+  }],
+  conversations: [{
+    conversationId: {
+      type: String,
+      required: true
+    },
+    recipient: {
+      type: String,
+      required: true
+    }
   }]
 });
 
