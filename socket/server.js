@@ -1,48 +1,52 @@
 const express = require('express');
 const { createServer } = require('http');
-const server = require('socket.io');
+const { Server } = require('socket.io');
 
-const {
-  userJoin,
-  getCurrentUser,
-  userLeave,
-  getRoomUsers 
-} = require('./utils/users');
 
 // init sever
 const app = express();
 const httpServer = createServer(app);
 
-const io = require("socket.io")(httpServer, {
+const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
+    //allowedHeaders: ["my-custom-header"],
     credentials: true
   }
 });
 
+const room = 'test room';
 
-module.exports =  function startSocket() {
+io.on('connection', socket => {
+  console.log(`connection by ${socket.id}`);
+
+  socket.on('join', (id) => {
+    socket.join(id);
+    socket.emit('roomName', 'test room');
+    console.log(io.engine.clientsCount);
+    //console.log(`${id} joined on ${socket.id}`)
+ });
+
+
+  socket.on('send_message', msg => {
+    console.log(msg);
+    // console.log(io.engine.clientsCount)
+    // console.log(io.of("/").adapter.sids);
+    // console.log(socket.id);
+    socket.to('61ba565477dddaa3ce37b9c0').emit('recive_message', msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('disconnect');
+  });
+
+});
+
+const startSocket = () => {
   //start server
   const PORT = 8000 || process.env.PORT;
   httpServer.listen(PORT, () => console.log(`socket running on port ${PORT}`));
-};
+}
 
-
-const room = 'test room';
-const userName = 'bam';
-
-io.on('connection', (socket) => {
-  console.log('conneted user');
-  socket.on('join', () => {
-    socket.join(room);
-    console.log('user joined');
-  });
-  socket.emit('roomName', room);
-
-  socket.on('message', (msg) => {
-    console.log(msg);
-    socket.broadcast.emit('message', msg);
-  });
-});
+module.exports = startSocket;
