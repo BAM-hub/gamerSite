@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ChatSchema = mongoose.schema({
+const ChatSchema = mongoose.Schema({
   conversation: [{
     message: {
       sender: {
@@ -18,17 +18,23 @@ const ChatSchema = mongoose.schema({
       time: {
         type: Date,
         default: Date.now
-      },
-      admin: {
-        type: String,
-        required: true
       }
     }
   }],
   conversationId: {
     type: String,
     required: true
+  },
+  users: [{
+    email: {
+      type: String,
+      required: true
+    }
+  }],
+  dateCreated: {
+    type: Date,
+    default: Date.now()
   }
 });
 
-module.exports = Chat = mongoose.model('Chat', chatScheme);
+module.exports = Chat = mongoose.model('Chat', ChatSchema);
