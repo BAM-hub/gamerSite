@@ -1,10 +1,27 @@
 const express = require('express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-
 const connectDB = require('./config/db');
-const startSocket = require('./socket/server');
+
 const app = express();
+const socketHandler = require('./socket/socket');
+
+const httpServer = createServer(app);
+
+
+const io = new Server(httpServer, {
+cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    //allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+});
+
+io.on('connection', socket => {socketHandler(socket)});
+
 
 //connect db
 connectDB();
@@ -25,8 +42,6 @@ app.use('/api/chat', require('./routes/api/chat'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => { 
+httpServer.listen(PORT, () => { 
     console.log(`server started on ${PORT}`);
 });
-
-startSocket();
