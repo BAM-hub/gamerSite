@@ -16,7 +16,7 @@ const Profile = ({ getProfile, auth:{email} }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     getProfile(email);
-    const socket = io('localhost:8000');
+    const socket = io('localhost:5000');
     dispatch({
       type: SOCKET_CONNECTION,
       payload: socket
@@ -28,7 +28,7 @@ const Profile = ({ getProfile, auth:{email} }) => {
       //socket.off();
       dispatch({
         type: SOCKET_CLOSE,
-        payload: io('localhost:8000')
+        payload: io('localhost:5000')
       });
       socket.close();
     }
