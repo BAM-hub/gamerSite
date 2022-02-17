@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {
   USER_FOUND,
-  USER_NOT_FOUND
+  USER_NOT_FOUND,
+  CLEAR_SEARCH,
+  SET_SELECTED_CHAT
 } from './types';
 
 export const findChat = (email) => async dispatch => {
@@ -33,3 +35,6 @@ export const getUserByEmail = (email) => async dispatch => {
     });
   }
 }
+
+export const clearSearch = () => dispatch => dispatch({ type: CLEAR_SEARCH });
+export const selectChat = id => dispatch => dispatch({ type: SET_SELECTED_CHAT, payload: id });

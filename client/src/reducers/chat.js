@@ -1,6 +1,8 @@
 import {
   USER_FOUND,
-  USER_NOT_FOUND
+  USER_NOT_FOUND,
+  CLEAR_SEARCH,
+  SET_SELECTED_CHAT
 } from '../actions/types';
 
 const initialState = {
@@ -9,6 +11,9 @@ const initialState = {
     name: '',
     email: '',
     date: ''
+  },
+  selectedChat: {
+    _id: '',
   }
 };
 
@@ -17,8 +22,11 @@ export default function(state = initialState, action) {
   const  { type, payload } = action;
   switch(type) {
     case USER_FOUND:
-      return { search: { ...payload } };
+      return { search: { ...payload }, ...state };
+    case SET_SELECTED_CHAT:
+      return { ...state, selectedChat: { _id: payload } }
     case USER_NOT_FOUND:
+    case CLEAR_SEARCH:
         return { 
           search: {
             _id: null,
