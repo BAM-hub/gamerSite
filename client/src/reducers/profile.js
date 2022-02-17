@@ -31,7 +31,8 @@ const initialState = {
     image: '',
     tags: ''
   }],
-  image: ''
+  image: '',
+  conversations: []
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
