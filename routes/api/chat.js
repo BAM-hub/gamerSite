@@ -41,34 +41,24 @@ router.post('/create-conversation', auth, async (req, res) => {
     creatorConversations = creatorConversations.conversations;
     recipientConversations = recipientConversations.conversations;
 
-    if(creatorConversations) {
-      creatorConversations.push({
-        conversationId: creatorData.id + ' ' + recipientData.id,
-        recipient: recipientData.name
-      });
-      await Profile.findOneAndUpdate(
-        { email: creator },
-        { conversations: creatorConversations });
-    }  else {
-      await Profile.findOneAndUpdate(
-        { email: creator },
-        { conversations: [creatorConversations] });
-    }
-    
-    if(recipientConversations){
-      recipientConversations.push({
-        conversationId: creatorData.id + ' ' + recipientData.id,
-        recipient: creatorData.name
-      });
 
-      await Profile.findOneAndUpdate(
-        { email: recipient },
-        { conversations: recipientConversations });
-    } else {
-      await Profile.findOneAndUpdate(
-        { email: creator },
-        { conversations: [recipientConversations] });
-    }
+    creatorConversations.push({
+      conversationId: creatorData.id + ' ' + recipientData.id,
+      recipient: recipientData.name
+    });
+    await Profile.findOneAndUpdate(
+      { email: creator },
+      { conversations: creatorConversations });
+
+
+    recipientConversations.push({
+      conversationId: creatorData.id + ' ' + recipientData.id,
+      recipient: creatorData.name
+    });
+
+    await Profile.findOneAndUpdate(
+      { email: recipient },
+      { conversations: recipientConversations });
 
     res.send(conversation);
     
@@ -82,5 +72,17 @@ router.get('/chat/:id', auth, async (req, res) => {
   
 });
 
+//private route
+//get user by email
+router.get('/get-user-by-email/:email', async (req, res) => {
+  try {
+    const { email } = req.params;
+    const user = await User.findOne({ email: email }).select('-password');
+    if(!user) return res.send('User Not Found!');
+    res.send(user);
+  } catch (err) {
+    res.status(500).send('server error');
+  }
+});
 
 module.exports = router;
