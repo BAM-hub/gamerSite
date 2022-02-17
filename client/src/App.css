@@ -72,12 +72,14 @@ nav a {
   height: 20vw;
   border: 2px solid black;
   border-radius: 50%;
+  background: #838383;
   overflow: hidden;
 }
 
 .avatar img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .info .name {
@@ -178,18 +180,13 @@ nav a {
   padding: 1em;
 }
 
-.edit-game-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .add-game {
   width: 4em;
   border: 0;
   margin-top: 0.2em;
   margin-bottom: 0.2em;
   padding: 0.3em;
+  margin-left: calc(50vw - 4em / 2);
 }
 
 .game-edit-inputs {
@@ -244,6 +241,7 @@ nav a {
 .submit-list {
   position: absolute;
   bottom: 1em;
+  right: calc(50vw - 4em / 2);
   border: 0;
   padding: 0.3em;
   width: 4em;
@@ -255,19 +253,44 @@ nav a {
   height: 100%;
   width: 25%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .right .search-bar {
   height: 15vh;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.chat-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 1000%;
+}
+
+::-webkit-scrollbar {
+  background: rgba(255, 253, 253, 0.664);
+  border-radius: 1rem;
+  width: 0.8rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 13, 13, 0.445);
+  border-radius: 1rem;
 }
 
 .chat-room {
   display: flex;
   justify-content: space-around;
   padding: 1em;
+}
+
+.chat-room:hover {
+  cursor: pointer;
+  background-color: #57de95;
 }
 
 .form-container {
@@ -307,6 +330,28 @@ nav a {
   justify-content: center;
   align-items: center;
   padding: 10em;
+}
+
+/* upload image section */
+.upload-image {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.image-preview {
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  border: 4px solid black;
+  overflow: hidden;
+  display: flex;
+}
+
+.image-preview img {
+  object-fit: cover;
 }
 
 @media screen and (min-width: 1080px) {
