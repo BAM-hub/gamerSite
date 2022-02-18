@@ -35,16 +35,18 @@ router.post('/create-conversation', auth, async (req, res) => {
 
     await conversation.save();
 
-    let creatorConversations = await Profile.findOne({ email: creator });
-    let recipientConversations = await Profile.findOne({ email: recipient });
+    const creatorProfile = await Profile.findOne({ email: creator });
+    const recipientProfile = await Profile.findOne({ email: recipient });
     
-    creatorConversations = creatorConversations.conversations;
-    recipientConversations = recipientConversations.conversations;
+    let creatorConversations = creatorProfile.conversations;
+    let recipientConversations = recipientProfile.conversations;
 
 
     creatorConversations.push({
       conversationId: creatorData.id + ' ' + recipientData.id,
-      recipient: recipientData.name
+      recipientName: recipientData.name,
+      recipientEmail: recipient,
+      image: recipientProfile.image
     });
     await Profile.findOneAndUpdate(
       { email: creator },
@@ -53,7 +55,9 @@ router.post('/create-conversation', auth, async (req, res) => {
 
     recipientConversations.push({
       conversationId: creatorData.id + ' ' + recipientData.id,
-      recipient: creatorData.name
+      recipientName: creatorData.name,
+      recipientEmail: creator,
+      image: creatorProfile.image
     });
 
     await Profile.findOneAndUpdate(
@@ -68,8 +72,15 @@ router.post('/create-conversation', auth, async (req, res) => {
   
 });
 
-router.get('/chat/:id', auth, async (req, res) => {
-  
+router.get('/:id', async (req, res) => {
+  try {
+    //use find for potential documents spliting
+    const chat = await Chat.find({ conversationId: req.params.id })
+      .sort({ dateCreated: -1 }).limit(1).select('conversation');
+    res.send(chat[0]);
+  } catch (err) {
+    res.status(500).send('Server Error');
+  }
 });
 
 //private route
