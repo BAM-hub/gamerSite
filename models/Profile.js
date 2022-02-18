@@ -58,7 +58,15 @@ const ProfileScheme = new mongoose.Schema({
       type: String,
       required: true
     },
-    recipient: {
+    recipientName: {
+      type: String,
+      required: true
+    },
+    recipientEmail: {
+      type: String,
+      required: true
+    },
+    image: {
       type: String,
       required: true
     }
