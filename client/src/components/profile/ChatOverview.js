@@ -1,39 +1,48 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { getUserByEmail, clearSearch, selectChat } from '../../actions/chat';
+import { 
+  getUserByEmail, 
+  clearSearch, 
+  selectChat, 
+  createChat
+} from '../../actions/chat';
 import { Redirect } from 'react-router-dom';
 
 const ChatOverview = ({ 
-  auth: { socket, user },
+  auth,
   getUserByEmail,
-  chat,
+  chat: { search, selectedChat },
   conversations,
   clearSearch,
-  selectChat
+  selectChat,
+  createChat
 }) => {
   const [email, setEmail] = useState('');
   const [redirect, setRedirect] = useState(false);
-  const [selectedChat, setSelectedChat] = useState('');
+  const [localSelectedChat, setLocalSelectedChat] = useState(selectedChat._id);
 
 
   const toChat = (id) => {
-    setSelectedChat(id);
+    setLocalSelectedChat(id);
     clearSearch();
     selectChat(id);
+    if(window.location.href  === 'http://localhost:3000/chat') return;
     setRedirect(true);
   };
 
   const searchChat = (e) => {
     e.preventDefault();
     getUserByEmail(email);
-    if(chat.search._id === null) return;
-    setSelectedChat(user + ' ' + chat.search._id);
-    selectChat(user + ' ' + chat.search._id);
+    if(search._id === null) return;
+    setLocalSelectedChat(auth.user + ' ' + search._id);
+    selectChat(auth.user + ' ' + search._id);
+    createChat(auth.email, email);
+    if(window.location.href  === 'http://localhost:3000/chat') return;
     setRedirect(true);
   }
 
-  if(redirect) return <Redirect to={`/chat/${selectedChat}`} />
+  if(redirect) return <Redirect to='/chat' />
  
   return (
     <div className="right">
@@ -54,11 +63,12 @@ const ChatOverview = ({
     <div className="chat-container">
       {conversations.map(convo => (
       <div 
-        className="chat-room" key={convo.conversationId} 
+        className={localSelectedChat === convo.conversationId ? 'chat-room green': 'chat-room'} 
+        key={convo.conversationId} 
         onClick={() => toChat(convo.conversationId)} 
       >
         <div className="room-name">
-          <p>{convo.recipient}</p>
+          <p>{convo.recipientName}</p>
         </div>
 
         <div className="last-message">
@@ -78,7 +88,8 @@ ChatOverview.propTypes = {
   conversations: PropTypes.array.isRequired,
   getUserByEmail: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
-  selectChat: PropTypes.func.isRequired
+  selectChat: PropTypes.func.isRequired,
+  createChat: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -89,5 +100,10 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getUserByEmail, clearSearch, selectChat }
+  {
+    getUserByEmail,
+    clearSearch,
+    selectChat,
+    createChat
+  }
 )(ChatOverview);
