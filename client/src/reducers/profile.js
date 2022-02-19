@@ -7,7 +7,8 @@ import {
   UPLOAD_IMAGE_FAILED,
   IMAGE_DELETED,
   IMAGE_DELETE_FAIL,
-  GAME_LIST_UPDATED
+  GAME_LIST_UPDATED,
+  CONVERSAITION_CREATED
 } from '../actions/types';
 
 
@@ -59,6 +60,20 @@ export default function(state = initialState, action) {
       return {
         ...state,
         gameList: payload
+      }
+    case CONVERSAITION_CREATED: 
+      const { users, conversationId } = payload;
+
+      return {
+        ...state,
+        conversations: [
+          ...state.conversations,
+          {
+            conversationId: conversationId,
+            recipientName: users[1].name,
+            recipientEmail: users[1].email
+          }
+        ]
       } 
     case UPLOAD_IMAGE_FAILED:
     case PROFILE_NOT_FOUND:
