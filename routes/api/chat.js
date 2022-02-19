@@ -30,7 +30,10 @@ router.post('/create-conversation', auth, async (req, res) => {
 
     const conversation = new Chat({
       conversationId: creatorData.id + ' ' + recipientData.id,
-      users: [{ email: creatorData.email }, { email: recipientData.email }]
+      users: [
+        { email: creatorData.email, name: creatorData.name },
+        { email: recipientData.email, name: recipientData.name }
+      ]
     });
 
     await conversation.save();
@@ -76,7 +79,7 @@ router.get('/:id', async (req, res) => {
   try {
     //use find for potential documents spliting
     const chat = await Chat.find({ conversationId: req.params.id })
-      .sort({ dateCreated: -1 }).limit(1).select('conversation');
+      .sort({ dateCreated: -1 }).limit(1).select('conversation conversationId');
     res.send(chat[0]);
   } catch (err) {
     res.status(500).send('Server Error');
