@@ -5,18 +5,34 @@ import { useState } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { selectChat } from '../../actions/chat';
+import { selectChat, findChat } from '../../actions/chat';
 import ChatOverView from '../profile/ChatOverview';
 
 const Chat = ({
   auth:{ name, user, socket, email },
-  chat: { selectedChat },
-  selectChat,
-  conversations
+  chat: { selectedChat, chats },
+  conversations,
+  findChat
 }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [recipient, setRecipient] = useState('');
+
+  useEffect(() => {
+    findChat(selectedChat._id);
+  }, [findChat, selectedChat._id])
+
+  useEffect(() => {
+    const localChat = chats.filter(chat => chat.conversationId === selectChat._id);
+    setMessages(localChat);
+  }, [chats])
+
+  useEffect(() => {
+    selectedChat._id.split(' ').forEach(id =>{
+      if(id !== user) return setRecipient(id);
+    });
+    
+  }, [selectedChat._id, user]);
 
   //get room name
   useEffect(() => {
@@ -29,12 +45,6 @@ const Chat = ({
     }
   }, [user, socket, email]);
 
-  useEffect(() => {
-    selectedChat._id.split(' ').forEach(id =>{
-      if(id !== user) return setRecipient(id);
-    });
-    
-  }, [recipient, selectedChat._id, user]);
 
   const send = () => {
     const msg = { 
@@ -44,7 +54,6 @@ const Chat = ({
       reciver: recipient,
       time: moment()
     };
-    console.log(msg);
     setMessages(
       prevState => [...prevState, msg]
     );
@@ -89,14 +98,14 @@ const mapStatetoProps = state => ({
 Chat.propTypes = {
   auth: PropTypes.object.isRequired,
   chat: PropTypes.object.isRequired,
-  selectChat: PropTypes.func.isRequired,
   conversations: PropTypes.array.isRequired,
+  findChat: PropTypes.func.isRequired
 };
 
 
 export default connect(
   mapStatetoProps,
-  { selectChat }
+  { selectChat, findChat }
 )(Chat);
 
 const Messages = ({ messages, user }) => (
@@ -109,7 +118,7 @@ const Messages = ({ messages, user }) => (
         <div className="date">
           <Moment
             className='moment'  
-            format='MM/DD HH:MM'>
+            format='MM/DD hh:mm'>
             {msg.time}
           </Moment>
         </div>
