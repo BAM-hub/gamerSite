@@ -69,7 +69,18 @@ const ProfileScheme = new mongoose.Schema({
     image: {
       type: String,
       required: true
-    }
+    },
+    newMessage: {
+      message: { 
+        message: {type: String, default: 'Empty'} 
+      },
+      name: { type: String },
+      time: Date,
+      count: {
+        type: Number,
+        default: 0
+      }
+    } 
   }]
 });
 
