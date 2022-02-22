@@ -8,7 +8,9 @@ import {
   IMAGE_DELETED,
   IMAGE_DELETE_FAIL,
   GAME_LIST_UPDATED,
-  CONVERSAITION_CREATED
+  CONVERSAITION_CREATED,
+  NEW_MESSAGE,
+  SET_SELECTED_CHAT
 } from '../actions/types';
 
 
@@ -71,10 +73,53 @@ export default function(state = initialState, action) {
           {
             conversationId: conversationId,
             recipientName: users[1].name,
-            recipientEmail: users[1].email
+            recipientEmail: users[1].email,
+            newMessage: {
+              count: 0,
+              message: {message: 'Empty'}
+            }
           }
         ]
-      } 
+      }
+    case NEW_MESSAGE:
+      const { id, msg, selectedChatId } = payload;
+      const newConversations = state.conversations.map(convo => {
+        if(convo.conversationId === selectedChatId && selectedChatId === id) return {
+          ...convo,
+          newMessage: {
+            message: msg,
+            count: 0
+          }
+        };
+        
+        if(convo.conversationId === id)
+          return { ...convo, newMessage: {
+            message: msg,
+            count: ++convo.newMessage.count
+          }};
+        return convo;  
+      });
+      return {
+        ...state,
+        conversations: newConversations
+      };
+    case SET_SELECTED_CHAT:
+      const updateCount = state.conversations.map(convo => {
+        if(payload === convo.conversationId) {
+          return {
+            ...convo,
+            newMessage: {
+              ...convo.newMessage,
+              count: 0
+            }
+          }
+        }
+        return convo;
+      });
+      return {
+        ...state,
+        conversations: updateCount
+      };
     case UPLOAD_IMAGE_FAILED:
     case PROFILE_NOT_FOUND:
     case PROFILE_CREATE_ERROR:
