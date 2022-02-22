@@ -72,7 +72,10 @@ const ChatOverview = ({
         </div>
 
         <div className="last-message">
-          <p>hey man i ju...</p>
+          {convo.newMessage.count > 0 &&
+            <p>{convo.newMessage.count}</p>
+          }
+          <p>{convo.newMessage.message.message}</p>
         </div>
       </div>
       ))}

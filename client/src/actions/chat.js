@@ -7,7 +7,8 @@ import {
   CONVERSATION_FOUND,
   CONVERSATION_NOT_FOUND,
   CONVERSAITION_CREATED,
-  CONVERSATION_CREATE_FAIL
+  CONVERSATION_CREATE_FAIL,
+  NEW_MESSAGE
 } from './types';
 
 
@@ -78,6 +79,38 @@ export const getUserByEmail = (email) => async dispatch => {
     });
   }
 }
+
+export const newMessage = (id, selectedChatId , msg, chats) => async dispatch => {
+  const chatFetched = chats.filter(chat => chat.conversationId === id);
+  if(chatFetched.length !== 1) {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      const res = await axios.get(`/api/chat/${id}`, config);
+      dispatch({
+        type: CONVERSATION_FOUND,
+        payload: res.data
+      })
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: CONVERSATION_NOT_FOUND
+      });
+    }
+  }
+  dispatch({ 
+    type: NEW_MESSAGE,
+    payload: {
+      id: id,
+      msg: msg, 
+      selectedChatId: selectedChatId
+    } 
+  });  
+};
+
 
 export const clearSearch = () => dispatch => dispatch({ type: CLEAR_SEARCH });
 export const selectChat = id => dispatch => dispatch({ type: SET_SELECTED_CHAT, payload: id });

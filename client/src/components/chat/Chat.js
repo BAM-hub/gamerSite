@@ -5,30 +5,33 @@ import { useState } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { selectChat, findChat } from '../../actions/chat';
+import { selectChat, findChat, newMessage } from '../../actions/chat';
 import ChatOverView from '../profile/ChatOverview';
 
 const Chat = ({
   auth:{ name, user, socket, email },
   chat: { selectedChat, chats },
   conversations,
-  findChat
+  findChat,
+  newMessage
 }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [recipient, setRecipient] = useState('');
 
   useEffect(() => {
-    findChat(selectedChat._id);
-  }, [findChat, selectedChat._id])
+    const fetch = chats.filter(convo => convo.conversationId === selectedChat._id);
+    if(fetch.length === 0 ) findChat(selectedChat._id);
+
+    const localChat = chats.filter(chat => chat.conversationId === selectedChat._id);
+    if(localChat.length > 0) {
+      setMessages(localChat[0].conversation);
+    }
+  
+  }, [chats, findChat, selectedChat._id]);
 
   useEffect(() => {
-    const localChat = chats.filter(chat => chat.conversationId === selectChat._id);
-    setMessages(localChat);
-  }, [chats])
-
-  useEffect(() => {
-    selectedChat._id.split(' ').forEach(id =>{
+    selectedChat._id.split(' ').forEach(id => {
       if(id !== user) return setRecipient(id);
     });
     
@@ -50,21 +53,19 @@ const Chat = ({
     const msg = { 
       message,
       name,
+      chatId: selectedChat._id,
       id: uuidv4(), 
       reciver: recipient,
       time: moment()
     };
-    setMessages(
-      prevState => [...prevState, msg]
-    );
+    newMessage(msg.chatId, selectedChat._id, msg, chats);
+    
     socket.emit('send_message', msg);
     setMessage('');
   }
   useEffect(() => {
     socket.on('recive_message', (msg) => {
-      setMessages(
-        prevState => [...prevState, msg] 
-      );
+      newMessage(msg.chatId,selectedChat._id , msg, chats);
     });
     return () => {
       socket.off('recive_message');
@@ -99,13 +100,14 @@ Chat.propTypes = {
   auth: PropTypes.object.isRequired,
   chat: PropTypes.object.isRequired,
   conversations: PropTypes.array.isRequired,
-  findChat: PropTypes.func.isRequired
+  findChat: PropTypes.func.isRequired,
+  newMessage: PropTypes.func.isRequired
 };
 
 
 export default connect(
   mapStatetoProps,
-  { selectChat, findChat }
+  { selectChat, findChat, newMessage }
 )(Chat);
 
 const Messages = ({ messages, user }) => (
