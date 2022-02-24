@@ -4,7 +4,8 @@ import {
   CLEAR_SEARCH,
   SET_SELECTED_CHAT,
   CONVERSATION_FOUND,
-  CONVERSAITION_CREATED
+  CONVERSAITION_CREATED,
+  NEW_MESSAGE
 } from '../actions/types';
 
 const initialState = {
@@ -42,7 +43,22 @@ export default function(state = initialState, action) {
           conversationId: conversationId,
           conversation: []
         }]
-      }  
+      }
+    case NEW_MESSAGE:
+      const { id, msg } = payload;
+      const newConversations = state.chats.map(convo => {
+        if(id === convo.conversationId) {
+          return {
+            ...convo,
+            conversation: [msg, ...convo.conversation]
+          };
+        }
+        return convo;
+      });
+      return {
+        ...state,
+        chats: newConversations
+      };
     case USER_NOT_FOUND:
     case CLEAR_SEARCH:
         return {
