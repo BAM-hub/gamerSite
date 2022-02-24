@@ -83,7 +83,7 @@ export default function(state = initialState, action) {
       }
     case NEW_MESSAGE:
       const { id, msg, selectedChatId } = payload;
-      const newConversations = state.conversations.map(convo => {
+      let newConversations = state.conversations.map(convo => {
         if(convo.conversationId === selectedChatId && selectedChatId === id) return {
           ...convo,
           newMessage: {
@@ -99,6 +99,8 @@ export default function(state = initialState, action) {
           }};
         return convo;  
       });
+      newConversations = newConversations.sort((a, b) => 
+        new Date(b.newMessage.message.time || new Date(1900,0,1)) - new Date(a.newMessage.message.time || new Date(1900,0,1)));
       return {
         ...state,
         conversations: newConversations
