@@ -22,7 +22,6 @@ const ChatOverview = ({
   const [redirect, setRedirect] = useState(false);
   const [localSelectedChat, setLocalSelectedChat] = useState(selectedChat._id);
 
-
   const toChat = (id) => {
     setLocalSelectedChat(id);
     clearSearch();
