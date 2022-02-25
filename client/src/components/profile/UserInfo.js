@@ -6,8 +6,8 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const UserInfo = ({
+  name,
   profile:{
-    name,
     social,
     staredGame,
     image
@@ -99,10 +99,12 @@ const UserInfo = ({
 
 UserInfo.propTypes = {
   profile: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  name: state.auth.name
 });
 
 export default connect(
