@@ -6,7 +6,7 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { selectChat, findChat, newMessage } from '../../actions/chat';
-import ChatOverView from '../profile/ChatOverview';
+import ChatOverView from './ChatOverview';
 
 const Chat = ({
   auth:{ name, user, socket, email },
@@ -37,22 +37,10 @@ const Chat = ({
     
   }, [selectedChat._id, user]);
 
-  //get room name
-  useEffect(() => {
-    socket.emit('join', user);
-    return () => {
-      //socket.close();
-      socket.off('join');
-      socket.off('connection');
-      socket.close();
-    }
-  }, [user, socket, email]);
-
-
   const send = () => {
     const msg = { 
       message,
-      name,
+      sender: name,
       chatId: selectedChat._id,
       id: uuidv4(), 
       reciver: recipient,
@@ -63,14 +51,6 @@ const Chat = ({
     socket.emit('send_message', msg);
     setMessage('');
   }
-  useEffect(() => {
-    socket.on('recive_message', (msg) => {
-      newMessage(msg.chatId,selectedChat._id , msg, chats);
-    });
-    return () => {
-      socket.off('recive_message');
-    }
-  });
 
   return (
     <>
@@ -116,7 +96,7 @@ const Messages = ({ messages, user }) => (
       <div 
         className={msg.reciver === user ? 'message align-left': 'message align-right'}
         key={msg.id}>
-        <p className="sender">{msg.name}</p>
+        <p className="sender">{msg.sender}</p>
         <div className="date">
           <Moment
             className='moment'  

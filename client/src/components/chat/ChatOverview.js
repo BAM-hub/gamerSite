@@ -7,10 +7,10 @@ import {
   selectChat, 
   createChat
 } from '../../actions/chat';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 
 const ChatOverview = ({ 
-  auth,
+  auth: {user, email, socket, name},
   getUserByEmail,
   chat: { search, selectedChat },
   conversations,
@@ -18,26 +18,34 @@ const ChatOverview = ({
   selectChat,
   createChat
 }) => {
-  const [email, setEmail] = useState('');
+  const [recipientEmail, setRecipientEmail] = useState('');
   const [redirect, setRedirect] = useState(false);
   const [localSelectedChat, setLocalSelectedChat] = useState(selectedChat._id);
+  const location = useLocation();
 
   const toChat = (id) => {
     setLocalSelectedChat(id);
     clearSearch();
     selectChat(id);
-    if(window.location.href  === 'http://localhost:3000/chat') return;
+    if(location.pathname === '/chat') return;
     setRedirect(true);
   };
 
   const searchChat = (e) => {
     e.preventDefault();
-    getUserByEmail(email);
+    getUserByEmail(recipientEmail);
     if(search._id === null) return;
-    setLocalSelectedChat(auth.user + ' ' + search._id);
-    selectChat(auth.user + ' ' + search._id);
-    createChat(auth.email, email);
-    if(window.location.href  === 'http://localhost:3000/chat') return;
+    setLocalSelectedChat(user + ' ' + search._id);
+    selectChat(user + ' ' + search._id);
+    createChat(email, recipientEmail);
+    socket?.emit('new-chat', ( 
+      { recipient: search._id,
+        convoId: user + ' ' + search._id,
+        myEmail: email,
+        myName: name
+       } 
+      ));
+    if(location.pathname  === '/chat') return;
     setRedirect(true);
   }
 
@@ -50,8 +58,8 @@ const ChatOverview = ({
       <input 
         type="text" 
         placeholder="search chat" 
-        value={email}
-        onChange={e => setEmail(e.target.value)}
+        value={recipientEmail}
+        onChange={e => setRecipientEmail(e.target.value)}
       />
       <button type="submit" onClick={(e) => searchChat(e)}>
         <i className="fas fa-paper-plane"></i>
