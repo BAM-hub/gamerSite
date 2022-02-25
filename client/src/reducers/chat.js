@@ -32,7 +32,10 @@ export default function(state = initialState, action) {
     case CONVERSATION_FOUND:
       return {
         ...state,
-        chats: [...state.chats, payload]
+        chats: [...state.chats, {
+          conversation:payload.conversation,
+          conversationId: payload.conversationId
+         }]
       }
     case CONVERSAITION_CREATED:
       const { conversationId } = payload;
@@ -50,7 +53,7 @@ export default function(state = initialState, action) {
         if(id === convo.conversationId) {
           return {
             ...convo,
-            conversation: [msg, ...convo.conversation]
+            conversation: [...convo.conversation, msg]
           };
         }
         return convo;
