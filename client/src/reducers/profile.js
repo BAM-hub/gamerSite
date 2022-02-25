@@ -10,7 +10,8 @@ import {
   GAME_LIST_UPDATED,
   CONVERSAITION_CREATED,
   NEW_MESSAGE,
-  SET_SELECTED_CHAT
+  SET_SELECTED_CHAT,
+  NEW_CHAT
 } from '../actions/types';
 
 
@@ -78,6 +79,23 @@ export default function(state = initialState, action) {
               count: 0,
               message: {message: 'Empty'}
             }
+          }
+        ]
+      }
+    case NEW_CHAT:
+      return {
+        ...state,
+        conversations: [
+          ...state.conversations,
+          {
+            newMessage: {
+              message: {
+                message: 'Empty'
+              }
+            },
+            conversationId: payload.convoId,
+            recipientEmail: payload.myEmail,
+            recipientName: payload.myName
           }
         ]
       }
