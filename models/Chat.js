@@ -3,22 +3,21 @@ const mongoose = require('mongoose');
 const ChatSchema = mongoose.Schema({
   conversation: [{
     message: {
-      sender: {
-        type: String,
-        required: true
-      },
-      recipient: {
-        type: String,
-        required: true
-      },
-      text: {
-        type: String,
-        required: true
-      },
-      time: {
-        type: Date,
-        default: Date.now
-      }
+      type: String,
+    },
+    sender: {
+      type: String,
+      required: true
+    },
+    reciver: {
+      type: String
+    },
+    time: {
+      type: Date,
+      default: Date.now
+    },
+    id: {
+      type: String
     }
   }],
   conversationId: {
