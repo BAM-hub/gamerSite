@@ -1,7 +1,6 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,41 +15,42 @@ const Chat = ({
   newMessage
 }) => {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
   const [recipient, setRecipient] = useState('');
-
-  useEffect(() => {
-    const fetch = chats.filter(convo => convo.conversationId === selectedChat._id);
-    if(fetch.length === 0 ) findChat(selectedChat._id);
-
-    const localChat = chats.filter(chat => chat.conversationId === selectedChat._id);
-    if(localChat.length > 0) {
-      setMessages(localChat[0].conversation);
-    }
+  const [messages, setMessages] = useState([]);
+  const [recipientEmail, setRecipientEmail] = useState('');
   
-  }, [chats, findChat, selectedChat._id]);
+  useEffect(() => {
+    const localChat = chats.filter(chat => chat.conversationId === selectedChat._id);
+    if(localChat.length > 0)
+      setMessages(localChat[0].conversation);
+  }, [chats, selectedChat._id]);
 
+  // determining the sender and recipient info
   useEffect(() => {
     selectedChat._id.split(' ').forEach(id => {
       if(id !== user) return setRecipient(id);
     });
-    
-  }, [selectedChat._id, user]);
+    conversations.forEach(convo => {
+      if(convo.reciver === selectChat._id)
+        return setRecipientEmail(convo.recipientEmail);
+    });
+  }, [chats, conversations, selectedChat._id, user]);
+
 
   const send = () => {
     const msg = { 
       message,
       sender: name,
       chatId: selectedChat._id,
+      recipientEmail:  recipientEmail,
       id: uuidv4(), 
       reciver: recipient,
       time: moment()
     };
     newMessage(msg.chatId, selectedChat._id, msg, chats);
-    
     socket.emit('send_message', msg);
     setMessage('');
-  }
+  };
 
   return (
     <>
@@ -92,7 +92,7 @@ export default connect(
 
 const Messages = ({ messages, user }) => (
   <div className="message-container">
-    {messages.map(msg => (
+    {messages?.map(msg => (
       <div 
         className={msg.reciver === user ? 'message align-left': 'message align-right'}
         key={msg.id}>

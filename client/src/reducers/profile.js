@@ -9,7 +9,6 @@ import {
   IMAGE_DELETE_FAIL,
   GAME_LIST_UPDATED,
   CONVERSAITION_CREATED,
-  NEW_MESSAGE,
   SET_SELECTED_CHAT,
   NEW_CHAT
 } from '../actions/types';
@@ -99,30 +98,6 @@ export default function(state = initialState, action) {
           }
         ]
       }
-    case NEW_MESSAGE:
-      const { id, msg, selectedChatId } = payload;
-      let newConversations = state.conversations.map(convo => {
-        if(convo.conversationId === selectedChatId && selectedChatId === id) return {
-          ...convo,
-          newMessage: {
-            message: msg,
-            count: 0
-          }
-        };
-        
-        if(convo.conversationId === id)
-          return { ...convo, newMessage: {
-            message: msg,
-            count: ++convo.newMessage.count
-          }};
-        return convo;  
-      });
-      newConversations = newConversations.sort((a, b) => 
-        new Date(b.newMessage.message.time || new Date(1900,0,1)) - new Date(a.newMessage.message.time || new Date(1900,0,1)));
-      return {
-        ...state,
-        conversations: newConversations
-      };
     case SET_SELECTED_CHAT:
       const updateCount = state.conversations.map(convo => {
         if(payload === convo.conversationId) {

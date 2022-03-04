@@ -32,6 +32,18 @@ const ChatSchema = mongoose.Schema({
     name: {
       type: String,
       required: true
+    },
+    alerts: {
+      message: {
+        type: String,
+        default: 'Empty'
+      },
+      name: { type: String },
+      time: Date,
+      count: {
+        type: Number,
+        default: 0
+      }
     }
   }],
   dateCreated: {

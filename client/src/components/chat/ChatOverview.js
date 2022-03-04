@@ -12,7 +12,7 @@ import { Redirect, useLocation } from 'react-router-dom';
 const ChatOverview = ({ 
   auth: {user, email, socket, name},
   getUserByEmail,
-  chat: { search, selectedChat },
+  chat: { search, selectedChat, chats },
   conversations,
   clearSearch,
   selectChat,
@@ -68,21 +68,21 @@ const ChatOverview = ({
 
     <h3>Chat Rooms</h3>
     <div className="chat-container">
-      {conversations.map(convo => (
+      {chats?.map(chat => (
       <div 
-        className={localSelectedChat === convo.conversationId ? 'chat-room green': 'chat-room'} 
-        key={convo.conversationId} 
-        onClick={() => toChat(convo.conversationId)} 
+        className={localSelectedChat === chat.conversationId ? 'chat-room green': 'chat-room'} 
+        key={chat.conversationId} 
+        onClick={() => toChat(chat.conversationId)} 
       >
         <div className="room-name">
-          <p>{convo.recipientName}</p>
+          <p>{chat.recipientName}</p>
         </div>
 
         <div className="last-message">
-          {convo.newMessage.count > 0 &&
-            <p>{convo.newMessage.count}</p>
+          {chat.alert.count > 0 &&
+            <p>{chat.alert.count}</p>
           }
-          <p>{convo.newMessage.message.message}</p>
+          <p>{chat.alert.message}</p>
         </div>
       </div>
       ))}

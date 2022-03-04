@@ -5,7 +5,10 @@ import {
   SET_SELECTED_CHAT,
   CONVERSATION_FOUND,
   CONVERSAITION_CREATED,
-  NEW_MESSAGE
+  NEW_MESSAGE,
+  CHAT_ALERTS_FOUND,
+  CHAT_ALERTS_NOT_FOUND,
+  NEW_CHAT
 } from '../actions/types';
 
 const initialState = {
@@ -30,34 +33,62 @@ export default function(state = initialState, action) {
     case SET_SELECTED_CHAT:
       return { ...state, selectedChat: { _id: payload } }
     case CONVERSATION_FOUND:
+      const updateChats = state.chats.map(chat => {
+        if(chat.conversationId === payload.conversationId)
+          return {
+            ...payload,
+            ...chat
+          }
+        return chat;
+      });
       return {
         ...state,
-        chats: [...state.chats, {
-          conversation:payload.conversation,
-          conversationId: payload.conversationId
-         }]
+        chats: updateChats
       }
     case CONVERSAITION_CREATED:
-      const { conversationId } = payload;
+      const { conversationId, recipientName, recipientEmail } = payload;
       return {
         ...state,
         chats: [
           ...state.chats, {
           conversationId: conversationId,
-          conversation: []
+          conversation: [],
+          alert: {
+            message: 'Empty',
+            count: 0
+          },
+          recipientName,
+          recipientEmail
         }]
       }
     case NEW_MESSAGE:
-      const { id, msg } = payload;
-      const newConversations = state.chats.map(convo => {
+      const { id, msg, selectedChatId } = payload;
+      let newConversations = state.chats.map(convo => {
+
+        if(id === convo.conversationId && id === selectedChatId) {
+          return {
+            ...convo,
+            conversation: [...convo.conversation, msg],
+            alert: {
+              message: msg.message,
+              count: 0
+            }
+          };
+        }
         if(id === convo.conversationId) {
           return {
             ...convo,
-            conversation: [...convo.conversation, msg]
+            conversation: [...convo.conversation, msg],
+            alert: {
+              message: msg.message,
+              count: ++convo.alert.count
+            }
           };
         }
         return convo;
       });
+      newConversations = newConversations.sort((a, b) => 
+       new Date(b.alert.message.time || new Date(1900,0,1)) - new Date(a.alert.message.time || new Date(1900,0,1)));
       return {
         ...state,
         chats: newConversations
@@ -73,6 +104,29 @@ export default function(state = initialState, action) {
             date: ''
           }
         };
+    case NEW_CHAT:
+      const { convoId, myName, myEmail } = payload;
+      return {
+        ...state,
+        chats: [
+          ...state.chats,
+          {
+            alert: {
+              count: 0,
+              message: 'Empty'
+            },
+            conversationId: convoId,
+            recipientEmail: myEmail,
+            recipientName: myName
+          }
+        ]
+      }    
+    case CHAT_ALERTS_FOUND: 
+      return { 
+        ...state,
+        chats: payload
+      }
+    case CHAT_ALERTS_NOT_FOUND:  
     default:
       return state;
   }

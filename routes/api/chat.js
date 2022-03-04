@@ -99,4 +99,31 @@ router.get('/get-user-by-email/:email', async (req, res) => {
   }
 });
 
+router.get('/get-user-alerts/:id/:email', async (req,res) => {
+  const { id, email } = req.params;
+  try {
+    const profile = await Profile.findById(id);
+    const { conversations } = profile;
+    
+    const alerts = await Promise.all(conversations.map( async convo => {
+        try {
+          const chat = await Chat.findOne({ conversationId: convo.conversationId });
+          const { users, conversationId } = chat;
+          const alert =  users.filter(user => {
+            if(user.email === email) 
+              return {alerts: user.alerts};
+          });
+          console.log(alert);
+          return {alert: alert[0], conversationId};
+        } catch (err) {
+          res.status(500).send('Internal Server Error');
+        }
+      })
+    );
+    return res.send(alerts);
+  } catch (err) {
+    res.status(500).send('server error');
+  }
+});
+
 module.exports = router;
