@@ -1,6 +1,6 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,10 +8,9 @@ import { selectChat, findChat, newMessage } from '../../actions/chat';
 import ChatOverView from './ChatOverview';
 
 const Chat = ({
-  auth:{ name, user, socket, email },
+  auth:{ name, user, socket },
   chat: { selectedChat, chats },
   conversations,
-  findChat,
   newMessage
 }) => {
   const [message, setMessage] = useState('');

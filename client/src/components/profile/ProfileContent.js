@@ -15,15 +15,8 @@ const ProfileContent = ({
   };
   return (
     <div className="mid">
-    <div className="top-mid">
-      <form action="" method="post" className="search-bar">
-       <input type="text" placeholder="search other gamers" />
-       <button type="submit">
-         <i className="fas fa-paper-plane"></i>
-        </button>
-      </form>
-      
-   <span><p>Prefered Console: </p>{PreferedConsole}</span>
+    <div className="top-mid"> 
+      <span><p>Prefered Console: </p>{PreferedConsole}</span>
     </div>
 
     <div className="list">
