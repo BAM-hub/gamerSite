@@ -79,7 +79,7 @@ router.get('/:id', async (req, res) => {
   try {
     //use find for potential documents spliting
     const chat = await Chat.find({ conversationId: req.params.id })
-      .sort({ dateCreated: -1 }).limit(1).select('conversation conversationId');
+      .sort({ dateCreated: -1 }).limit(1);
     res.send(chat[0]);
   } catch (err) {
     res.status(500).send('Server Error');

@@ -18,11 +18,14 @@ const Chat = ({
   const [recipient, setRecipient] = useState('');
   const [messages, setMessages] = useState([]);
   const [recipientEmail, setRecipientEmail] = useState('');
+  const [users, setUsers] = useState([]);
   
   useEffect(() => {
     const localChat = chats.filter(chat => chat.conversationId === selectedChat._id);
-    if(localChat.length > 0)
+    if(localChat.length > 0) {
       setMessages(localChat[0].conversation);
+      setUsers(localChat[0].users);
+    }
   }, [chats, selectedChat._id]);
 
   // determining the sender and recipient info
@@ -45,7 +48,8 @@ const Chat = ({
       recipientEmail:  recipientEmail,
       id: uuidv4(), 
       reciver: recipient,
-      time: moment()
+      time: moment(),
+      users: users
     };
     newMessage(msg.chatId, selectedChat._id, msg, chats);
     socket.emit('send_message', msg);

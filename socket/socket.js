@@ -1,4 +1,3 @@
-const Profile = require('../models/Profile');
 const Chat = require('../models/Chat');
 
 const socketHandler = async (socket) => {
@@ -9,9 +8,28 @@ const socketHandler = async (socket) => {
    });
   
     socket.on('send_message', async msg => {
-      console.log(msg);
-      await Chat.findOneAndUpdate(
-        {conversationId: msg.chatId},
+      //console.log(msg);
+      const users = msg.users.map(user => {
+        if(user.email === msg.recipientEmail)
+          return {
+            name: user.name,
+            email: user.email,
+            alerts: {
+              count: ++user.alerts.count,
+              message: msg.message
+            }
+          };
+          return {
+            name: user.name,
+            email: user.email,
+            alerts: {
+              count: 0,
+              message: msg.message
+            }
+          }
+      });
+      await Chat.findOneAndUpdate(  
+        { conversationId: msg.chatId },
         {
           $addToSet: {
             conversation: [
@@ -20,12 +38,14 @@ const socketHandler = async (socket) => {
                 reciver: msg.reciver,
                 id: msg.id,
                 message: msg.message,
-                time: msg.time
-            }
+                time: msg.time 
+              }
             ]
-          }
-        }
-      );
+          },
+          users: users
+        });
+
+
       socket.to(msg.reciver).emit('recive_message', msg);
     });
 
