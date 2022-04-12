@@ -23,7 +23,7 @@ const CreatePorfile = (
     createProfile(formData, token, email);
   };
   return (
-    <div>
+    <div className='profile-form'>
       <form className='form' onSubmit={e => onSubmit(e)}>
         <input 
           type="text"
