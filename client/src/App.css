@@ -10,7 +10,8 @@
 input[type="submit"],
 input[type="button"],
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+button {
   color: #231f1f;
 }
 
@@ -356,6 +357,10 @@ nav a {
 
 /* Chat section */
 
+.green {
+  background: #57de95;
+}
+
 .chat-form-container {
   width: 75%;
   border: 1px solid white;
@@ -458,7 +463,10 @@ nav a {
 
   .left,
   .mid,
-  .right {
+  .right,
+  .edit-game-list,
+  .upload-image,
+  .profile-form {
     height: 92vh;
   }
 
@@ -474,5 +482,34 @@ nav a {
   .avatar img {
     width: 100%;
     height: 100%;
+  }
+  .edit-game-list .list-item {
+    width: 70vw;
+  }
+  .add-game {
+    width: 10vw;
+    margin-left: calc(31vw - 4em / 2);
+  }
+
+  .profile-form {
+    width: 70vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-form form {
+    width: 60%;
+    height: 50vh;
+  }
+
+  .profile-form form input,
+  .profile-form form button {
+    padding: 0.2rem;
+  }
+
+  .upload-image .image-preview {
+    width: 50vh;
+    height: 50vh;
   }
 }
