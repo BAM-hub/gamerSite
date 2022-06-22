@@ -40,7 +40,7 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
   * uuid
   * socket.io-client
 * Backend
-  * bcruptjs
+  * bcryptjs
   * crypto
   * config
   * express-validator
