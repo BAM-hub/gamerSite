@@ -37,18 +37,15 @@ upload.single('file'),
 async (req, res) =>{ 
   
   const errors = validationResult(req);
-  console.log(JSON.stringify(errors));
   if(!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
   // auth user if he is the same as the profile owner
-
   const { user: { id } } = jwt.decode(
       req.header('x-auth-token'),
       config.get('jwtSecret')
     );
   const user = await User.findOne({ _id: id }); 
-
   if(user.email !== req.params.email) {
     return res.status(200).send('Authoraization Denied');
   }
@@ -64,7 +61,7 @@ async (req, res) =>{
 
   try {
       if(type === 'avatar'){
-        await Profile.findByIdAndUpdate(
+        await Profile.findOneAndUpdate(
           {email: email},
           { image: filename }
         );
@@ -151,10 +148,9 @@ async(req, res) => {
 
 //@route   GET api/avatar:fielname
 //@desc    avatar get route
-//@access  Private
+//@access  Public
 router.get(
 '/avatar/:filename',
-auth,
 async (req, res) => {
     
   if(gfs) {
