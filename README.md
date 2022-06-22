@@ -26,3 +26,11 @@ This an abstract Diagram of How I handeld Compnent interaction with the database
 
 ## App Preview
 ![gamerSite](https://user-images.githubusercontent.com/78625404/175083654-e497659c-0dfb-478d-aeef-e5ea4325e543.png)
+
+## What I'm Currentlly working on.
+* Backend Refactoring.
+* Bug discover and fixes.
+* Refactoring The Frontend.
+
+## After I finsh Working 
+### Deploy to Heroku.
