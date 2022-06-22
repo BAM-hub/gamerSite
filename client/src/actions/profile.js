@@ -38,14 +38,19 @@ export const uploadImage = (file, email, image) => async dispatch => {
   try {
     let config = {
       headers: {
-        'content-type': 'multipart/encrypted'
+        'content-type': 'multipart/encrypted',
+        'x-auth-token': localStorage.getItem('x-auth-token')
       }
     };
 
 
     if(image !== '') {
       try {
-        axios.delete(`api/profile/delete-avatar/${email}/${image}`);
+        await axios.delete(`api/images/delete-avatar/${email}/${image}`, {
+          headers: {
+            'x-auth-token': localStorage.getItem('x-auth-token'),
+          }
+        });
         dispatch({
           type: IMAGE_DELETED
         });
@@ -54,12 +59,13 @@ export const uploadImage = (file, email, image) => async dispatch => {
         dispatch({
           type: IMAGE_DELETE_FAIL
         });
+        return;
       }
     }
 
     let body = new FormData();
     body.append('file', file, file.name);
-    let res = await axios.post(`/api/profile/upload/${email}/avatar`, body, config);
+    let res = await axios.post(`/api/images/upload/${email}/avatar`, body, config);
     
     dispatch({
       type: UPLOAD_IMAGE,
@@ -126,7 +132,8 @@ export const editGameList = (gameList, email, token) => async dispatch => {
 
     config = {
       headers: {
-        'content-type': 'multipart/encrypted'
+        'content-type': 'multipart/encrypted',
+        'x-auth-token': localStorage.getItem('x-auth-token')
       }
     };
 
@@ -153,7 +160,7 @@ export const editGameList = (gameList, email, token) => async dispatch => {
       body = new FormData();
       body.append('file', gameList[i].image , gameList[i].image.name);
 
-      await axios.post(`api/profile/upload/${email}/Games:${gameList[i].name}`, body, config);
+      await axios.post(`api/images/upload/${email}/Games:${gameList[i].name}`, body, config);
       
       if(i === existingGames.length -1) {
         let config = {

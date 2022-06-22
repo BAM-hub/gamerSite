@@ -28,7 +28,7 @@ const ProfileContent = ({
       <div key={game.name} className="list-item">
 
         <div className="game-pic">
-          <img src={`http://localhost:5000/api/profile/avatar/${game.image}`} alt="" />
+          <img src={`http://localhost:5000/api/images/avatar/${game.image}`} alt="" />
         </div>
 
           <div className="game-name">
