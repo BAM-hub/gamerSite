@@ -28,6 +28,31 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 ### In this demonstration two instances of the app are open to cover most of it's features. 
 ![gamerSite](https://user-images.githubusercontent.com/78625404/175083654-e497659c-0dfb-478d-aeef-e5ea4325e543.png)
 
+## Tech Stack
+* Frontend
+  * React
+  * Redux
+  * axios
+  * form-data
+  * moment
+  * react-moment
+  * redux-thunk
+  * uuid
+  * socket.io-client
+* Backend
+  * bcruptjs
+  * crypto
+  * config
+  * express-validator
+  * ecpress
+  * gridfs-stream
+  * jsonwebtoken
+  * method-override
+  * moment
+  * multer
+  * multer-gridfs-storage
+  * socket.io
+
 ## What I'm Currentlly working on.
 * Backend Refactoring.
 * Bug discover and fixes.
