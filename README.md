@@ -18,7 +18,7 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 6. Put the string in default.json and add a secret as follows:
 ``` JSON
 {
-  "mongoURI": "mongodb+srv://<username>:<password>@cluster0.u4bnx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://<username>:<password>@<cluster and database info>?retryWrites=true&w=majority",
   "jwtSecret": "SelectedSecret"
 }
 ```
@@ -27,6 +27,31 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 ## App Preview
 ### In this demonstration two instances of the app are open to cover most of it's features. 
 ![gamerSite](https://user-images.githubusercontent.com/78625404/175083654-e497659c-0dfb-478d-aeef-e5ea4325e543.png)
+
+## Tech Stack
+* Frontend
+  * React
+  * Redux
+  * axios
+  * form-data
+  * moment
+  * react-moment
+  * redux-thunk
+  * uuid
+  * socket.io-client
+* Backend
+  * bcryptjs
+  * crypto
+  * config
+  * express-validator
+  * express
+  * gridfs-stream
+  * jsonwebtoken
+  * method-override
+  * moment
+  * multer
+  * multer-gridfs-storage
+  * socket.io
 
 ## What I'm Currentlly working on.
 * Backend Refactoring.
