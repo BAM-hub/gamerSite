@@ -44,7 +44,7 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
   * crypto
   * config
   * express-validator
-  * ecpress
+  * express
   * gridfs-stream
   * jsonwebtoken
   * method-override
