@@ -6,7 +6,7 @@ This Project is built using the MERN stack to test my skills with the MERN stack
  * GridFS for storing images in MongoDB.
 
 ## App Diagram
-This an abstract Diagram of How I handeld Compnent interaction with the database, authentecation And Access Control. 
+This an abstract Diagram of How I handeld Compnent interaction with the Backend, authentecation And Access Control. 
 ![gamersiteDiagram](https://user-images.githubusercontent.com/78625404/175077427-08a4a08e-9fa6-4ad7-8597-8f3fe67e47b0.png)
 
 ## To try This app You need to.
