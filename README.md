@@ -23,3 +23,6 @@ This an abstract Diagram of How I handeld Compnent interaction with the database
 }
 ```
 7. run ```npm run dev```
+
+## App Preview
+![gamerSite](https://user-images.githubusercontent.com/78625404/175083654-e497659c-0dfb-478d-aeef-e5ea4325e543.png)
