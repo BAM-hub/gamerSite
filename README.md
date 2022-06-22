@@ -18,7 +18,7 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 6. Put the string in default.json and add a secret as follows:
 ``` JSON
 {
-  "mongoURI": "mongodb+srv://<username>:<password>@cluster0.u4bnx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://<username>:<password>@<cluster and database info>?retryWrites=true&w=majority",
   "jwtSecret": "SelectedSecret"
 }
 ```
