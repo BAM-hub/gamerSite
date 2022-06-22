@@ -13,10 +13,13 @@ This an abstract Diagram of How I handeld Compnent interaction with the database
 1. Clone this Project Repo.
 2. run in your terminal ``` npm install ```
 3. then run ``` cd client``` then ``` npm install ``` then ``` cd.. ```
-4. Create in the config file a default.json file
+4. Create in the config folder a default.json file
 5. Create a new MangoDB Database Get the DB connection string
-6. But the string in default.json ```JSON 
-7. {
+6. Put the string in default.json and add a secret as fllows:
+``` JSON
+{
   "mongoURI": "mongodb+srv://<username>:<password>@cluster0.u4bnx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-  "jwtSecret": "BAMsecretoken"
-}```
+  "jwtSecret": "SelectedSecret"
+}
+```
+7. run ```npm run dev```
