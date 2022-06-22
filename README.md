@@ -25,6 +25,7 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 7. run ```npm run dev```
 
 ## App Preview
+### In this demonstration two instances of the app are open to cover most of it's features. 
 ![gamerSite](https://user-images.githubusercontent.com/78625404/175083654-e497659c-0dfb-478d-aeef-e5ea4325e543.png)
 
 ## What I'm Currentlly working on.
