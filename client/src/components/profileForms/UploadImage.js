@@ -34,7 +34,7 @@ const UploadImage = ({
         avatar ?
           <img src={URL.createObjectURL(avatar)} alt="fail" />
         : image !== '' ? 
-          <img src={`http://localhost:5000/api/profile/avatar/${image}`} alt="" />
+          <img src={`http://localhost:5000/api/images/avatar/${image}`} alt="" />
         : image === '' && <img src={logo} alt="placeholder" />
       }
       </div> 

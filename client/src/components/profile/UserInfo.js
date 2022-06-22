@@ -29,7 +29,7 @@ const UserInfo = ({
         image === '' ? 
         <img src={logo} alt='avatar' /> 
         :
-        <img src={`http://localhost:5000/api/profile/avatar/${image}`} alt="avatar"/>
+        <img src={`http://localhost:5000/api/images/avatar/${image}`} alt="avatar"/>
       }
 
       </div>

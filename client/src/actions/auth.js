@@ -53,6 +53,7 @@ export const login = ({ email, password }) => async dispatch => {
       type: LOGIN_SUCCESS,
       payload: res.data
     });
+    localStorage.setItem('x-auth-token', res.data.token);
   } catch (err) {
     const errors = err.response.data.errors;
 

@@ -124,7 +124,7 @@ const EditList = ({
               typeof(game.image) !== 'string' ?
                 <img src={URL.createObjectURL(game.image)} alt="game" /> 
                 :
-                <img src={`http://localhost:5000/api/profile/avatar/${game.image}`} alt='gamepic'/>
+                <img src={`http://localhost:5000/api/images/avatar/${game.image}`} alt='gamepic'/>
               }
 
             </div>
