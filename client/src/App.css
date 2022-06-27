@@ -333,6 +333,13 @@ nav a {
   padding: 10em;
 }
 
+.profile-form {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* upload image section */
 .upload-image {
   width: 100vw;
