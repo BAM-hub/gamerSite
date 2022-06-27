@@ -1,77 +1,81 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
+import PropTypes from "prop-types";
 
-const Register = ({ setAlert, register }) => {
-  
+const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: ''
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
   });
 
   const { name, email, password, password2 } = formData;
-  const onChange = e => setFormData({
-    ...formData, [e.target.name]: e.target.value
-  });
+  const onChange = (e) =>
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    if(!password || !password2) {
-        return setAlert('password is empty', 'danger');
+    if (!password || !password2) {
+      return setAlert("password is empty", "danger");
     }
-    if(password !== password2) {
-      setAlert('password dont match', 'danger');
-    }
-    else {
-      console.log({ name, email, password });
+    if (password !== password2) {
+      setAlert("password dont match", "danger");
+    } else {
       register({ name, email, password });
-    } 
+    }
+  };
+
+  if (isAuthenticated) {
+    return <Redirect to='/create-profile' />;
   }
 
   return (
-    <div className="form-container">
-      <form onSubmit={e => onSubmit(e)} id='form'  className='form'>
-          <input 
-            type='text'
-            placeholder='Name'
-            value={name}
-            name='name'
-            onChange={e => onChange(e)}
-            required
-            />
+    <div className='form-container'>
+      <form onSubmit={(e) => onSubmit(e)} id='form' className='form'>
+        <input
+          type='text'
+          placeholder='Name'
+          value={name}
+          name='name'
+          onChange={(e) => onChange(e)}
+          required
+        />
 
-          <input 
-            type='text'
-            placeholder='email'
-            name='email'
-            value={email}
-            onChange={e => onChange(e)}
-            required
-            />
+        <input
+          type='text'
+          placeholder='email'
+          name='email'
+          value={email}
+          onChange={(e) => onChange(e)}
+          required
+        />
 
-          <input 
-            type='password' 
-            placeholder='Password'
-            value={password}
-            name='password'
-            onChange={e => onChange(e)}
-            autoComplete='on'
-            required
-            />
-          <input 
-            type='password' 
-            placeholder='Password'
-            value={password2}
-            name='password2'
-            onChange={e => onChange(e)}
-            autoComplete='on'
-            required
-            />
-        <button type='submit'>Login</button>
+        <input
+          type='password'
+          placeholder='Password'
+          value={password}
+          name='password'
+          onChange={(e) => onChange(e)}
+          autoComplete='on'
+          required
+        />
+        <input
+          type='password'
+          placeholder='Password'
+          value={password2}
+          name='password2'
+          onChange={(e) => onChange(e)}
+          autoComplete='on'
+          required
+        />
+        <button type='submit'>Register</button>
       </form>
     </div>
   );
@@ -80,9 +84,10 @@ const Register = ({ setAlert, register }) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-}
+};
 
-export default connect(
-  null,
-  { setAlert, register }
-)(Register);
+const mapStatetoProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStatetoProps, { setAlert, register })(Register);
