@@ -58,6 +58,7 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 * Backend Refactoring.
 * Bug discover and fixes.
 * Refactoring The Frontend.
+* Fix the way i'm handling the socket on the frontend
 
 ## After I finsh Working 
 ### Deploy to Heroku.
