@@ -1,31 +1,41 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect } from "react";
+import { Route, Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 const PrivateRoute = ({
   component: Component,
-  auth: { isAuthenticated },
+  auth: { isAuthenticated, socket, user },
   ...rest
-}) => (
-  <Route
-    {...rest}
-    render={props =>
-       isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/" />
-      )
-    }
-  />
-);
+}) => {
+  useEffect(() => {
+    socket.connect();
+    if (user) socket.emit("join", user);
 
-PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired
+    return () => {
+      socket.off("join");
+      socket.off("connection");
+      socket.close();
+      socket.disconnect();
+    };
+  }, [socket, user]);
+
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        isAuthenticated ? <Component {...props} /> : <Redirect to='/' />
+      }
+    />
+  );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+PrivateRoute.propTypes = {
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);
