@@ -51,10 +51,8 @@ export const findChat = (id) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-    let res;
-    do {
-      res = await axios.get(`/api/chat/${id}`, config);
-    } while (res.data === "");
+    const res = await axios.get(`/api/chat/${id}`, config);
+
     dispatch({
       type: CONVERSATION_FOUND,
       payload: res.data,
