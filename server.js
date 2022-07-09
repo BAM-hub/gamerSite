@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const connectDB = require("./config/db");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
 const socketHandler = require("./socket/socket");
