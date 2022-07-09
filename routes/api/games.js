@@ -1,120 +1,103 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const auth = require('../../middleware/auth');
-const jwt = require('jsonWebToken');
-const { check, validationResult } = require('express-validator');
-const config = require('config');
+const auth = require("../../middleware/auth");
+const jwt = require("jsonwebtoken");
+const { check, validationResult } = require("express-validator");
+const config = require("config");
 
-const Games = require('../../models/Games');
-const User = require('../../models/User');
-const Profile = require('../../models/Profile');
+const Games = require("../../models/Games");
+const User = require("../../models/User");
+const Profile = require("../../models/Profile");
 
 //GET gets all games
 //Public
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     let games = await Games.find({});
-    res.send(games);  
-
+    res.send(games);
   } catch (err) {
-    
-    res.status(500).send('Server Error');   
+    res.status(500).send("Server Error");
   }
-
 });
 
-
-//Post add a new game 
+//Post add a new game
 //Private
-router.post('/add-game', auth, async(req,res) => {
+router.post("/add-game", auth, async (req, res) => {
   try {
     let { name, tags } = req.body;
-    let game = await Games.findOne({name});
+    let game = await Games.findOne({ name });
 
-    if(game) {
-      return res
-        .status(500)
-        .send('Game already exists');
+    if (game) {
+      return res.status(500).send("Game already exists");
     }
 
     game = new Games({
       name,
-      tags
+      tags,
     });
 
     await game.save();
 
     res.send(game);
   } catch (err) {
-
-    res.status(500).send(err); 
+    res.status(500).send(err);
   }
 });
 
-router.post('/add-game-to-profile',[
-   check('gameList', 'the list should not be empty')
-     .isArray().notEmpty()
- ],
- async (req, res) => {
-  
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(400).json({ errors: errors.array() });
+router.post(
+  "/add-game-to-profile",
+  [check("gameList", "the list should not be empty").isArray().notEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { gameList, email } = req.body;
+
+    try {
+      let existingGames = [];
+      existingGames.push(
+        await Promise.all(
+          gameList.map(async (game) => {
+            let { name, tags } = game;
+            let savedGame = await Games.findOne({ name });
+
+            if (savedGame) return 0;
+
+            game = new Games({
+              name,
+              tags,
+              image: "",
+            });
+            await game.save();
+
+            return 1;
+          })
+        )
+      );
+
+      await Profile.findOneAndUpdate({ email }, { gameList });
+
+      res.send({ existingGames, gameList });
+    } catch (err) {
+      res.status(500).send("Internal Server error");
+    }
   }
-
-  const {
-    gameList,
-    email
-  } = req.body;
-
-  try {
-    let existingGames = [];
-    existingGames.push(
-      await Promise.all(
-        gameList.map(async game => {
-          let { name, tags } = game;
-          let savedGame = await Games.findOne({ name });
-
-          if(savedGame) return 0;
-
-          game = new Games ({
-            name,
-            tags,
-            image: ''
-          });
-          await game.save();
-
-          return 1;
-        })
-      )
-    );
-    
-    await Profile.findOneAndUpdate(
-      { email },
-      { gameList }
-    );
-
-    res.send({ existingGames, gameList });
-
-  } catch (err) {
-   
-    res.status(500).send('Internal Server error');
-  }
- });
+);
 
 //PRIVATE
-router.get('/game-list/:email', async (req, res) => {
+router.get("/game-list/:email", async (req, res) => {
   //to get the final games data morrow
   let { email } = req.params;
   try {
-
     let profile = await Profile.findOne({ email });
-    let { gameList} = profile;
+    let { gameList } = profile;
 
     let newList = [];
     newList.push(
-        await Promise.all(
-          gameList.map(async game => {
+      await Promise.all(
+        gameList.map(async (game) => {
           let { name, score } = game;
           let newGame = await Games.findOne({ name });
           let { _id, image, tags } = newGame;
@@ -123,20 +106,17 @@ router.get('/game-list/:email', async (req, res) => {
             score,
             _id,
             image,
-            tags
+            tags,
           };
         })
       )
     );
-    await Profile.findOneAndUpdate(
-      { email },
-      { gameList: newList[0] }
-    );
+    await Profile.findOneAndUpdate({ email }, { gameList: newList[0] });
 
     res.send(newList[0]);
   } catch (err) {
     console.log(err);
   }
- });
+});
 
 module.exports = router;
