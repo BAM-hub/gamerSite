@@ -6,30 +6,30 @@ const methodOverride = require("method-override");
 const connectDB = require("./config/db");
 const path = require("path");
 require("dotenv").config();
-const cors = require("cors");
+// const cors = require("cors");
 
 const app = express();
 const socketHandler = require("./socket/socket");
 
 const httpServer = createServer(app);
 
-const origin =
-  process.env.NODE_ENV === "production"
-    ? "https://gamersite.up.railway.app"
-    : "http://localhost:3000";
+// const origin =
+//   process.env.NODE_ENV === "production"
+//     ? "https://gamersite.up.railway.app"
+//     : "http://localhost:3000";
 
-const io = new Server(httpServer, {
-  cors: {
-    origin: origin,
-    methods: ["GET", "POST"],
-    //allowedHeaders: ["my-custom-header"],
-    credentials: true,
-  },
-});
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: origin,
+//     methods: ["GET", "POST"],
+//     //allowedHeaders: ["my-custom-header"],
+//     credentials: true,
+//   },
+// });
 
-io.on("connection", (socket) => {
-  socketHandler(socket);
-});
+// io.on("connection", (socket) => {
+//   socketHandler(socket);
+// });
 
 //connect db
 connectDB();
