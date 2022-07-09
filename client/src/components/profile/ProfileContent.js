@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import { IMAGE_PREFIX } from "../../actions/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faList, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileContent = ({ profile: { PreferedConsole, gameList } }) => {
   const [edit, setEdit] = useState(false);
@@ -21,7 +23,7 @@ const ProfileContent = ({ profile: { PreferedConsole, gameList } }) => {
       <div className='list'>
         {gameList.length === 0 ? (
           <div className='list-item'>
-            <i className='fas fa-th-list'></i>
+            <FontAwesomeIcon icon={faList} />
             <span>List is empty</span>
           </div>
         ) : (
@@ -43,7 +45,7 @@ const ProfileContent = ({ profile: { PreferedConsole, gameList } }) => {
         )}
       </div>
       <div className='edit-list' onClick={() => setEdit(!edit)}>
-        <i className='far fa-edit'></i>
+        <FontAwesomeIcon icon={faEdit} />
       </div>
     </div>
   );
