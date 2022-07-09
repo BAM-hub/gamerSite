@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator");
 
 const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
-const config = require("config");
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const { upload } = require("../../middleware/upload");
@@ -14,7 +14,8 @@ const Games = require("../../models/Games");
 const User = require("../../models/User");
 
 // grid fs stream init
-const db = config.get("mongoURI");
+
+const db = process.env.mongoURI;
 let gfs;
 const dbConnection = mongoose.createConnection(db);
 
