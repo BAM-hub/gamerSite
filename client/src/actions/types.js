@@ -17,7 +17,7 @@ export const IMAGE_DELETE_FAIL = "IMAGE_DELETE_FAIL";
 export const GAME_LIST_UPDATED = "GAME_LIST_UPDATED";
 export const SOCKET_CONNECTION = "SOCKET_CONNECTION";
 export const SOCKET_CLOSE = "SOCKET_CLOSE";
-export const SOCKET_URL = "https://gamersite.up.railway.app";
+export const SOCKET_URL = "http://localhost:5000";
 
 // process.env.NODE_ENV === "production"
 // ? "https://gamersite.up.railway.app"
