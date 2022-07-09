@@ -4,6 +4,9 @@
 This Project is built using the MERN stack to test my skills with the MERN stack and explore new technologies like: 
  * Socket-io For two way live communication.
  * GridFS for storing images in MongoDB.
+ 
+ ## live on Railway (only in chrome ATM)
+ https://gamersite.up.railway.app/
 
 ## App Diagram
 This an abstract Diagram of How I handeld Compnent interaction with the Backend, authentecation And Access Control. 
@@ -59,6 +62,3 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 * Bug discover and fixes.
 * Refactoring The Frontend.
 * Fix the way i'm handling the socket on the frontend
-
-## After I finsh Working 
-### Deploy to Heroku.
