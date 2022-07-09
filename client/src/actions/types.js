@@ -23,8 +23,8 @@ export const SOCKET_URL =
     : "http://localhost:5000";
 export const IMAGE_PREFIX =
   process.env.NODE_ENV === "production"
-    ? "https://gamersite.up.railway.app/api/images/"
-    : "http://localhost:5000/api/images/";
+    ? "https://gamersite.up.railway.app/api/images"
+    : "http://localhost:5000/api/images";
 export const USER_NOT_FOUND = "USER_NOT_FOUND";
 export const USER_FOUND = "USER_FOUND";
 export const CLEAR_SEARCH = "CLEAR_SEARCH";
