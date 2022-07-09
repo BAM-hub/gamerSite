@@ -6,15 +6,21 @@ const methodOverride = require("method-override");
 const connectDB = require("./config/db");
 const path = require("path");
 require("dotenv").config();
+const cors = require("cors");
 
 const app = express();
 const socketHandler = require("./socket/socket");
 
 const httpServer = createServer(app);
+app.use(cors());
+const origin =
+  process.env.NODE_ENV === "production"
+    ? "https://gamersite.up.railway.app"
+    : "http://localhost:3000";
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: origin,
     methods: ["GET", "POST"],
     //allowedHeaders: ["my-custom-header"],
     credentials: true,
