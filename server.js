@@ -12,7 +12,7 @@ const app = express();
 const socketHandler = require("./socket/socket");
 
 const httpServer = createServer(app);
-app.use(cors());
+
 const origin =
   process.env.NODE_ENV === "production"
     ? "https://gamersite.up.railway.app"
@@ -49,6 +49,7 @@ app.use("/api/images", require("./routes/api/images"));
 
 // serve static assets in production
 if (process.env.NODE_ENV === "production") {
+  console.log("production");
   // set static folder
   app.use(express.static("client/build"));
 
