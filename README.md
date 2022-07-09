@@ -5,7 +5,7 @@ This Project is built using the MERN stack to test my skills with the MERN stack
  * Socket-io For two way live communication.
  * GridFS for storing images in MongoDB.
  
- ## live on Railway (only in chrome ATM)
+ ## live on Railway (only in chrome ATM, unstable need to migrate into RRD v6)
  https://gamersite.up.railway.app/
 
 ## App Diagram
