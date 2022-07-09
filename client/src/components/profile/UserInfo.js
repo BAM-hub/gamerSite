@@ -38,7 +38,6 @@ const UserInfo = ({ name, profile: { social, staredGame, image } }) => {
           <ul>
             <li>
               <FontAwesomeIcon icon={faPollH} />
-              {/* <i className='fas fa-poll-h'></i> */}
               <span>Nothing to show here.</span>
             </li>
           </ul>
@@ -49,13 +48,11 @@ const UserInfo = ({ name, profile: { social, staredGame, image } }) => {
             {social.facebook !== "" && (
               <li>
                 <FontAwesomeIcon icon={faFacebookSquare} />
-                {/* <i className='fab fa-facebook-square'></i> */}
                 <span>{social.facebook}</span>
               </li>
             )}
             {social.instagram !== "" && (
               <li>
-                {/* <i className='fab fa-instagram'></i> */}
                 <FontAwesomeIcon icon={faInstagramSquare} />
                 <span>{social.instagram}</span>
               </li>
@@ -63,7 +60,6 @@ const UserInfo = ({ name, profile: { social, staredGame, image } }) => {
             {social.whatsapp !== "" && (
               <li>
                 <FontAwesomeIcon icon={faWhatsapp} />
-                {/* <i className='fab fa-whatsapp'></i> */}
                 <span>{social.whatsapp}</span>
               </li>
             )}
@@ -71,7 +67,7 @@ const UserInfo = ({ name, profile: { social, staredGame, image } }) => {
               social.instagram === "" &&
               social.whatsapp === "" && (
                 <li>
-                  <i className='fas fa-poll-h'></i>
+                  <FontAwesomeIcon icon={faPollH} />
                   <span>Nothing to show here.</span>
                 </li>
               )}
