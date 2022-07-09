@@ -41,13 +41,16 @@ app.use("/api/games", require("./routes/api/games"));
 app.use("/api/chat", require("./routes/api/chat"));
 app.use("/api/images", require("./routes/api/images"));
 
+console.log(process.env.NODE_ENV);
+
 // serve static assets in production
 if (process.env.NODE_ENV === "production") {
   // set static folder
+  console.log(process.env.NODE_ENV + "1");
+
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
-    console.log(path.resolve(__dirname, "client", "build", "index.html"));
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
