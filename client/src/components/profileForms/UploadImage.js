@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import logo from "../layout/avatarph.jpg";
@@ -7,21 +7,20 @@ import logo from "../layout/avatarph.jpg";
 import { uploadImage } from "../../actions/profile";
 
 const UploadImage = ({ profile: { image }, auth: { email }, uploadImage }) => {
-  const navigate = useNavigate();
   const img = useRef();
   const [avatar, setAvatar] = useState(null);
   const [redirect, setRedirect] = useState(false);
 
-  const prev = (e) => {
+  const prev = async (e) => {
     e.preventDefault();
 
     //upload image
-    uploadImage(avatar, email, image);
+    await uploadImage(avatar, email, image);
     setRedirect(true);
   };
 
   if (redirect) {
-    return navigate("/profile");
+    return <Navigate to='/profile' replace={true} />;
   }
 
   return (
