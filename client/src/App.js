@@ -8,7 +8,7 @@ import CreatePorfile from "./components/profileForms/CreatePorfile";
 import EditList from "./components/profileForms/EditList";
 import UploadImage from "./components/profileForms/UploadImage";
 import PrivatRoute from "./PrivateRoute";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //redux
 import { Provider } from "react-redux";
@@ -21,15 +21,51 @@ const App = () => (
       <Navbar />
       <Alert />
       <div className='main'>
-        <Switch>
-          <Route exact path='/' component={Login} />
-          <Route exact path='/register' component={Register} />
-          <PrivatRoute exact path='/chat' component={ChatSocket} />
-          <PrivatRoute exact path='/profile' component={Profile} />
-          <PrivatRoute exact path='/create-profile' component={CreatePorfile} />
-          <PrivatRoute exact path='/edit-list' component={EditList} />
-          <PrivatRoute exact path='/upload-image' component={UploadImage} />
-        </Switch>
+        <Routes>
+          <Route path='/' element={<Login />} />
+
+          <Route path='/register' element={<Register />} />
+          <Route
+            path='/chat'
+            element={
+              <PrivatRoute>
+                <ChatSocket />
+              </PrivatRoute>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <PrivatRoute>
+                <Profile />
+              </PrivatRoute>
+            }
+          />
+          <Route
+            path='/create-profile'
+            element={
+              <PrivatRoute>
+                <CreatePorfile />
+              </PrivatRoute>
+            }
+          />
+          <Route
+            path='/edit-list'
+            element={
+              <PrivatRoute>
+                <EditList />
+              </PrivatRoute>
+            }
+          />
+          <Route
+            path='/upload-image'
+            element={
+              <PrivatRoute>
+                <UploadImage />
+              </PrivatRoute>
+            }
+          />
+        </Routes>
       </div>
     </Router>
   </Provider>
