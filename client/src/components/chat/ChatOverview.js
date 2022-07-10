@@ -7,7 +7,7 @@ import {
   selectChat,
   createChat,
 } from "../../actions/chat";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,7 +20,6 @@ const ChatOverview = ({
   selectChat,
   createChat,
 }) => {
-  const navigate = useNavigate();
   const [recipientEmail, setRecipientEmail] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [localSelectedChat, setLocalSelectedChat] = useState(selectedChat._id);
@@ -51,7 +50,7 @@ const ChatOverview = ({
     setRedirect(true);
   };
 
-  if (redirect) return navigate("/chat");
+  if (redirect) return <Navigate to='/chat' />;
 
   return (
     <div className='right'>
