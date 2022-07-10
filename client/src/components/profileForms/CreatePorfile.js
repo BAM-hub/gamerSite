@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createProfile } from "../../actions/profile";
-import { Redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreatePorfile = ({ auth: { email, token }, createProfile, profile }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(profile);
   const [redirect, setRedirect] = useState(false);
 
@@ -19,7 +20,7 @@ const CreatePorfile = ({ auth: { email, token }, createProfile, profile }) => {
   }
 
   if (redirect) {
-    return <Redirect to='/profile' />;
+    return navigate("/profile");
   }
 
   return (

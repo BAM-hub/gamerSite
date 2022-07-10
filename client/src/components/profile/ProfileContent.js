@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IMAGE_PREFIX } from "../../actions/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileContent = ({ profile: { PreferedConsole, gameList } }) => {
   const [edit, setEdit] = useState(false);
-  if (edit) {
-    return <Redirect to='/edit-list' />;
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (edit) {
+      navigate("/edit-list");
+    }
+  }, [edit, navigate]);
   return (
     <div className='mid'>
       <div className='top-mid'>
@@ -44,7 +47,7 @@ const ProfileContent = ({ profile: { PreferedConsole, gameList } }) => {
           ))
         )}
       </div>
-      <div className='edit-list' onClick={() => setEdit(!edit)}>
+      <div className='edit-list' onClick={() => setEdit(true)}>
         <FontAwesomeIcon icon={faEdit} />
       </div>
     </div>
