@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 const PrivateRoute = ({
   component: Component,
+  children,
   auth: { isAuthenticated, socket, user },
-  ...rest
 }) => {
+  const navigate = useNavigate();
   useEffect(() => {
     socket.connect();
     if (user) socket.emit("join", user);
@@ -20,14 +21,13 @@ const PrivateRoute = ({
     };
   }, [socket, user]);
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? <Component {...props} /> : <Redirect to='/' />
-      }
-    />
-  );
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
+  return children;
 };
 
 PrivateRoute.propTypes = {
