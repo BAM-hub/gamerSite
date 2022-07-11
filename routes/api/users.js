@@ -3,8 +3,8 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const config = require("config");
 const User = require("../../models/User");
 
 //@route   POST api/user
@@ -63,7 +63,7 @@ router.post(
 
       jwt.sign(
         payload,
-        config.get("jwtSecret"),
+        process.env.jwtSecret,
         { expiresIn: 36000 },
         (err, token) => {
           if (err) throw err;

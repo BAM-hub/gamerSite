@@ -1,12 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
-const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
-const config = require("config");
 
 const Games = require("../../models/Games");
-const User = require("../../models/User");
 const Profile = require("../../models/Profile");
 
 //GET gets all games
