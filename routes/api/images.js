@@ -42,7 +42,7 @@ router.post(
     // auth user if he is the same as the profile owner
     const {
       user: { id },
-    } = jwt.decode(req.header("x-auth-token"), config.get("jwtSecret"));
+    } = jwt.decode(req.header("x-auth-token"), process.env.jwtSectret);
     const user = await User.findOne({ _id: id });
     if (user.email !== req.params.email) {
       return res.status(200).send("Authoraization Denied");
@@ -87,7 +87,7 @@ router.delete(
     // auth user if he is the same as the profile owner
     const {
       user: { id },
-    } = jwt.decode(req.header("x-auth-token"), config.get("jwtSecret"));
+    } = jwt.decode(req.header("x-auth-token"), process.env.jwtSectret);
     const user = await User.findOne({ _id: id });
 
     if (user.email !== req.params.email) {
