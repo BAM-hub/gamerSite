@@ -16,13 +16,13 @@ import store from "./store";
 import ChatSocket from "./components/chat/ChatSocket";
 
 const App = () => (
-  <Provider store={store}>
-    <Router>
+  <Router>
+    <Provider store={store}>
       <Navbar />
       <Alert />
       <div className='main'>
         <Routes>
-          <Route exact path='/' element={<Login />} />
+          <Route path='/' element={<Login />} />
 
           <Route path='/register' element={<Register />} />
           <Route
@@ -67,8 +67,8 @@ const App = () => (
           />
         </Routes>
       </div>
-    </Router>
-  </Provider>
+    </Provider>
+  </Router>
 );
 
 export default App;
