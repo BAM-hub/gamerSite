@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import logo from "../layout/avatarph.jpg";
+import { IMAGE_PREFIX } from "../../actions/types";
 
 import { uploadImage } from "../../actions/profile";
 
@@ -29,10 +30,7 @@ const UploadImage = ({ profile: { image }, auth: { email }, uploadImage }) => {
         {avatar ? (
           <img src={URL.createObjectURL(avatar)} alt='fail' />
         ) : image !== "" ? (
-          <img
-            src={`http://localhost:5000/api/images/avatar/${image}`}
-            alt=''
-          />
+          <img src={`${IMAGE_PREFIX}/avatar/${image}`} alt='' />
         ) : (
           image === "" && <img src={logo} alt='placeholder' />
         )}

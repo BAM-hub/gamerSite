@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { editGameList } from "../../actions/profile";
+import { IMAGE_PREFIX } from "../../actions/types";
 
 const EditList = ({
   profile: { gameList },
@@ -110,7 +111,7 @@ const EditList = ({
                 <img src={URL.createObjectURL(game.image)} alt='game' />
               ) : (
                 <img
-                  src={`http://localhost:5000/api/images/avatar/${game.image}`}
+                  src={`${IMAGE_PREFIX}/avatar/${game.image}`}
                   alt='gamepic'
                 />
               )}
