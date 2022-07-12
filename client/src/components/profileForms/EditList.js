@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { editGameList } from "../../actions/profile";
 
 const EditList = ({
@@ -9,7 +9,6 @@ const EditList = ({
   auth: { email, token },
   editGameList,
 }) => {
-  const navigate = useNavigate();
   const [showForms, setShowForms] = useState(false);
   const [thisGameList, setThisGameList] = useState(gameList);
   const [game, setGame] = useState({
@@ -61,7 +60,7 @@ const EditList = ({
   };
 
   if (redirect) {
-    return navigate("/profile");
+    return <Navigate to='/profile' />;
   }
 
   return (
