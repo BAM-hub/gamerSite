@@ -33,7 +33,7 @@ const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
   };
 
   if (isAuthenticated) {
-    return <Navigate to='/profile' />;
+    return <Navigate to='/create-profile' />;
   }
 
   return (
