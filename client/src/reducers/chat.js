@@ -9,6 +9,7 @@ import {
   CHAT_ALERTS_FOUND,
   CHAT_ALERTS_NOT_FOUND,
   NEW_CHAT,
+  CLEAR_CHAT_ALERTS,
 } from "../actions/types";
 
 const initialState = {
@@ -32,6 +33,16 @@ export default function (state = initialState, action) {
       return { ...state, search: { ...payload } };
     case SET_SELECTED_CHAT:
       return { ...state, selectedChat: { _id: payload } };
+    case CLEAR_CHAT_ALERTS:
+      return {
+        ...state,
+        chats: state.chats.map((chat) => {
+          if (chat.conversationId === payload) {
+            return { ...chat, alert: { ...chat.alert, count: 0 } };
+          }
+          return chat;
+        }),
+      };
     case CONVERSATION_FOUND:
       const updateChats = state.chats.map((chat) => {
         if (chat.conversationId === payload.conversationId)
