@@ -11,6 +11,7 @@ import {
   NEW_MESSAGE,
   CHAT_ALERTS_FOUND,
   CHAT_ALERTS_NOT_FOUND,
+  CLEAR_CHAT_ALERTS,
 } from "./types";
 
 export const createChat = (creator, recipient) => async (dispatch) => {
@@ -156,6 +157,9 @@ export const getUserAlerts = (id, email, conversations) => async (dispatch) => {
   }
 };
 
-export const clearSearch = () => (dispatch) => dispatch({ type: CLEAR_SEARCH });
-export const selectChat = (id) => (dispatch) =>
+export const selectChat = (id) => (dispatch) => {
   dispatch({ type: SET_SELECTED_CHAT, payload: id });
+  dispatch({ type: CLEAR_CHAT_ALERTS, payload: id });
+};
+
+export const clearSearch = () => (dispatch) => dispatch({ type: CLEAR_SEARCH });
