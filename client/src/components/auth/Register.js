@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import PropTypes from "prop-types";
 
 const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,7 +33,7 @@ const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
   };
 
   if (isAuthenticated) {
-    return navigate("/profile");
+    return <Navigate to='/profile' />;
   }
 
   return (

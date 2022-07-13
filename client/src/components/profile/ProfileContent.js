@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { IMAGE_PREFIX } from "../../actions/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faList, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileContent = ({ profile: { PreferedConsole, gameList } }) => {
   const [edit, setEdit] = useState(false);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (edit) {
-      navigate("/edit-list");
-    }
-  }, [edit, navigate]);
+  if (edit) {
+    return <Navigate to='/edit-list' />;
+  }
+
   return (
     <div className='mid'>
       <div className='top-mid'>

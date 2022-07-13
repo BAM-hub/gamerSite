@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { login, loggedIn } from "../../actions/auth";
 import { getProfile } from "../../actions/profile";
 
 const Login = ({ auth: { isAuthenticated }, profile, login, getProfile }) => {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -30,11 +28,9 @@ const Login = ({ auth: { isAuthenticated }, profile, login, getProfile }) => {
     await Promise.all([login({ email, password }), getProfile(email)]);
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/profile");
-    }
-  }, [isAuthenticated, navigate]);
+  if (isAuthenticated) {
+    return <Navigate to='/profile' />;
+  }
 
   return (
     <div className='form-container'>

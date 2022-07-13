@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import logo from "../layout/avatarph.jpg";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { IMAGE_PREFIX } from "../../actions/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,13 +14,10 @@ import { faPollH } from "@fortawesome/free-solid-svg-icons";
 
 const UserInfo = ({ name, profile: { social, staredGame, image } }) => {
   const [uploadImage, setuploadImage] = useState(false);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (uploadImage) {
-      return navigate("/upload-image");
-    }
-  }, [uploadImage, navigate]);
+  if (uploadImage) {
+    return <Navigate to='/upload-image' />;
+  }
 
   return (
     <div className='left'>
