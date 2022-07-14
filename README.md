@@ -13,14 +13,12 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 1. Clone this Project Repo.
 2. run in your terminal ``` npm install ```
 3. then run ``` cd client``` then ``` npm install ``` then ``` cd.. ```
-4. Create in the config folder a default.json file
+4. Create in the root directory a .env file
 5. Create a new MangoDB Database Get the DB connection string
-6. Put the string in default.json and add a secret as follows:
-``` JSON
-{
-  "mongoURI": "mongodb+srv://<username>:<password>@<cluster and database info>?retryWrites=true&w=majority",
-  "jwtSecret": "SelectedSecret"
-}
+6. Put the string in .env and add a secret as follows:
+``` .env
+mongoURI=mogodb_uri
+jwtSecret=secter_key
 ```
 7. run ```npm run dev```
 
@@ -43,7 +41,7 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 * Backend
   * bcryptjs
   * crypto
-  * config
+  * dotenv
   * express-validator
   * express
   * gridfs-stream
@@ -56,6 +54,6 @@ This an abstract Diagram of How I handeld Compnent interaction with the Backend,
 
 ## What I'm Currentlly working on.
 * Backend Refactoring.
-* Bug discover and fixes.
-* Refactoring The Frontend.
-* Fix the way i'm handling the socket on the frontend
+* Debug create profile after register.
+* auto scrool in chat
+* chat alerts style
