@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../../actions/alert";
-import { register } from "../../actions/auth";
+import { register, login } from "../../actions/auth";
 import PropTypes from "prop-types";
 
-const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
+const Register = ({ setAlert, register, login, auth: { isAuthenticated } }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,6 +29,7 @@ const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
       setAlert("password dont match", "danger");
     } else {
       await register({ name, email, password });
+      await login({ email, password });
     }
   };
 
@@ -84,10 +85,13 @@ const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 const mapStatetoProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStatetoProps, { setAlert, register })(Register);
+export default connect(mapStatetoProps, { setAlert, register, login })(
+  Register
+);
