@@ -20,7 +20,7 @@ const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
       [e.target.name]: e.target.value,
     });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (!password || !password2) {
       return setAlert("password is empty", "danger");
@@ -28,7 +28,7 @@ const Register = ({ setAlert, register, auth: { isAuthenticated } }) => {
     if (password !== password2) {
       setAlert("password dont match", "danger");
     } else {
-      register({ name, email, password });
+      await register({ name, email, password });
     }
   };
 
